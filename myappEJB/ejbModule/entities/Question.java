@@ -1,10 +1,12 @@
 package entities;
 
 import java.io.Serializable;
+
 import java.sql.Date;
 
 import javax.persistence.*;
 import java.util.List;
+
 
 @Entity
 @Table(name="question",schema="db_myapp")
