@@ -2,8 +2,6 @@ package service;
 
 import java.sql.Date;
 
-import java.util.List;
-
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,12 +20,10 @@ public class QuestionnaireService {
         // TODO Auto-generated constructor stub
     }
     
-	public int createQuestionnaire(String product, Date date, String question) {
-		//check the date??
+	public void createQuestionnaire(String product, Date date) {
 		Questionnaire q= new Questionnaire (product, date);
 		em.persist(q);
 		em.flush();
-		return q.getId();
 	}
 
 	public void deleteQuestionnaire(int qId) {
@@ -37,6 +33,4 @@ public class QuestionnaireService {
 		em.remove(q);
 	}
 	
-	public void addQuestion()
-
 }

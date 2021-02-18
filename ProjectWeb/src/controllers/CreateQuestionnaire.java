@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,10 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringEscapeUtils;
-
-import it.polimi.db2.album.services.AlbumService;
-import it.polimi.db2.mission.entities.User;
-import it.polimi.db2.mission.services.MissionService;
 import service.QuestionnaireService;
 
 /**
@@ -54,36 +51,34 @@ public class CreateQuestionnaire extends HttpServlet {
 		}
 
 		// Get and parse all parameters from request
-		boolean isBadRequest = false;
+		boolean illegalDate = false;
 		String product = null;		
 		Date date = null;
-		String description = null;
-		Integer days = null;
-		Integer projectId= null;
+
 		try {
-			days = Integer.parseInt(request.getParameter("days"));
-			destination = StringEscapeUtils.escapeJava(request.getParameter("destination"));
-			description = StringEscapeUtils.escapeJava(request.getParameter("description"));
-			projectId =Integer.parseInt(request.getParameter("projectId"));
+			product = StringEscapeUtils.escapeJava(request.getParameter("product"));
+			
+			if(product.isEmpty() | product==null) {
+				throw new Exception ("Missing or empty product");
+			}
+			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			startDate = (Date) sdf.parse(request.getParameter("date"));
-			isBadRequest = days <= 0 || destination.isEmpty() || description.isEmpty()
-					|| getMeYesterday().after(startDate);
-		} catch (NumberFormatException | NullPointerException | ParseException e) {
-			isBadRequest = true;
-			e.printStackTrace();
+			date = (Date) sdf.parse(request.getParameter("date"));
+			illegalDate =  date.before(getToday());
+			
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad format of the reqeust");
 		}
-		if (isBadRequest) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect or missing param values");
+		if (illegalDate) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect date");
 			return;
 		}
 
-		// Create mission in DB
-		User user = (User) session.getAttribute("user");
+		// Create questionnaire in DB
 		try {
-			mService.createMission(startDate, days, destination, description, user.getId(), projectId);
+			qService.createQuestionnaire(product, date);
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to create mission");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to create questionnaire");
 			return;
 		}
 
@@ -91,6 +86,9 @@ public class CreateQuestionnaire extends HttpServlet {
 		String ctxpath = getServletContext().getContextPath();
 		String path = ctxpath + "/Home";
 		response.sendRedirect(path);
+	}
+	
+	public void destroy() {
 	}
 
 }
