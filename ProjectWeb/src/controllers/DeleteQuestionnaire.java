@@ -44,6 +44,7 @@ public class DeleteQuestionnaire extends HttpServlet {
 		Integer questionnaireId = null;
 		try {
 			questionnaireId = Integer.parseInt(request.getParameter("questionnaireid"));
+			System.out.println(questionnaireId);
 		} catch (NumberFormatException | NullPointerException e) {
 			// for debugging only e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect param values");
@@ -63,6 +64,12 @@ public class DeleteQuestionnaire extends HttpServlet {
 		String path = ctxpath + "/AdminHome";
 		response.sendRedirect(path);
 
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 	public void destroy() {

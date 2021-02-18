@@ -35,7 +35,7 @@ public class Review implements Serializable {
 	
 	//bi-directional many-to-one association to Questionnaire
 	@ManyToOne
-	@JoinColumn(name="questionnaire")
+	@JoinColumn(name="review")
 	private Questionnaire questionnaire;
 	
 	//bi-directional many-to-one association to User

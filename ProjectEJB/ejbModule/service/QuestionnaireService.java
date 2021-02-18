@@ -26,17 +26,23 @@ public class QuestionnaireService {
         // TODO Auto-generated constructor stub
     }
     
-	public Questionnaire createQuestionnaire(String product, Date date) {
-		Questionnaire q= new Questionnaire (product, date);
-		em.persist(q);
-		//em.flush();
-		return q;
+	public Questionnaire createQuestionnaire(String product, Date date) throws QuestionnaireException {
+		Questionnaire q= em.createNamedQuery("findByDate", Questionnaire.class).setParameter("date", date).getSingleResult();
+		
+		if(q==null) {
+			q= new Questionnaire (product, date);
+			em.persist(q);
+			em.flush();
+			return q;
+		}
+		else throw new QuestionnaireException("A questionnaire of the day already exists");
 	}
 
-	public void deleteQuestionnaire(int qId) {
+	public void deleteQuestionnaire(Integer qId) {
 		Questionnaire q = em.find(Questionnaire.class, qId);
 		if (q == null)
 			return;
+		
 		em.remove(q);
 	}
 	
@@ -52,13 +58,5 @@ public class QuestionnaireService {
 		}
 		return questionnaires;
 	}
-	
-	public void addQuestion(Integer id, String text) {
-		Question question = new Question(text);
-		Questionnaire questionnaire= em.find(Questionnaire.class, id);		
-		questionnaire.addQuestion(question);
-		em.persist(question);
-		
-	}
-	
+
 }
