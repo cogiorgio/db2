@@ -57,7 +57,6 @@ public class SignIn extends HttpServlet {
 			if (usrn == null || pwd == null || mail==null || usrn.isEmpty() || pwd.isEmpty() || mail.isEmpty()) {
 				throw new Exception("Missing or empty credential value");
 			}
-
 		} catch (Exception e) {
 			// for debugging only e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");

@@ -23,13 +23,12 @@ public class QuestionnaireService {
     }
     
 	public int createQuestionnaire(String product, Date date, String question) {
-		
+		//check the date??
 		Questionnaire q= new Questionnaire (product, date);
 		em.persist(q);
 		em.flush();
 		return q.getId();
 	}
-
 
 	public void deleteQuestionnaire(int qId) {
 		Questionnaire q = em.find(Questionnaire.class, qId);
@@ -37,5 +36,7 @@ public class QuestionnaireService {
 			return;
 		em.remove(q);
 	}
+	
+	public void addQuestion()
 
 }
