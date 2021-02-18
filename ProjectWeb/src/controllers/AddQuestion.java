@@ -58,7 +58,7 @@ public class AddQuestion extends HttpServlet {
 		try {
 			qService.addQuestion(questionnaire, text);
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to add other questions");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
 			return;
 		}
 

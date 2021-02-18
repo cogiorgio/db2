@@ -51,7 +51,6 @@ public class CreateQuestionnaire extends HttpServlet {
 	private Date getToday() {
 		Date today=new Date(System.currentTimeMillis());
 		return today;
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

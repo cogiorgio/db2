@@ -38,12 +38,17 @@ public class QuestionnaireService {
 		else throw new QuestionnaireException("A questionnaire of the day already exists");
 	}
 
-	public void deleteQuestionnaire(Integer qId) {
+	public void deleteQuestionnaire(Integer qId, Date today) throws QuestionnaireException {
 		Questionnaire q = em.find(Questionnaire.class, qId);
 		if (q == null)
 			return;
 		
-		em.remove(q);
+		if(q.getDate().before(today)) {
+		
+			em.remove(q);
+		}
+		
+		else throw new QuestionnaireException("Not allowed to delete this questionnaire");
 	}
 	
 	public List<Questionnaire> findAllQuestionnaire() throws QuestionnaireException {
