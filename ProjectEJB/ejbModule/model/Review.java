@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -43,6 +44,9 @@ public class Review implements Serializable {
 	@JoinColumn(name="user")
 	private User user;
 	
+	//bi-directional many-to-one association to Review
+	@OneToMany(mappedBy="review", cascade= CascadeType.REMOVE)
+	private List<Answer> answers;
 
 	public Review() {
 		super();
@@ -136,6 +140,25 @@ public class Review implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+	
+	public void addAnswer(Answer answer) {
+		getAnswers().add(answer);
+		answer.setReview(this);
+	}
+
+	public void removeAnswer(Answer answer) {
+		getAnswers().remove(answer);
+		answer.setReview(null);
 	}
 	
    
