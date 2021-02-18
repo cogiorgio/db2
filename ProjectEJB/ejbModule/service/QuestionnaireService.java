@@ -1,6 +1,7 @@
 package service;
 
-import java.sql.Date;
+import java.util.Date;
+
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -10,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
 import exceptions.QuestionnaireException;
+import model.Question;
 import model.Questionnaire;
 
 /**
@@ -24,10 +26,11 @@ public class QuestionnaireService {
         // TODO Auto-generated constructor stub
     }
     
-	public void createQuestionnaire(String product, Date date) {
+	public Questionnaire createQuestionnaire(String product, Date date) {
 		Questionnaire q= new Questionnaire (product, date);
 		em.persist(q);
-		em.flush();
+		//em.flush();
+		return q;
 	}
 
 	public void deleteQuestionnaire(int qId) {
@@ -48,6 +51,14 @@ public class QuestionnaireService {
 
 		}
 		return questionnaires;
+	}
+	
+	public void addQuestion(Integer id, String text) {
+		Question question = new Question(text);
+		Questionnaire questionnaire= em.find(Questionnaire.class, id);		
+		questionnaire.addQuestion(question);
+		em.persist(question);
+		
 	}
 	
 }
