@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Delete Questionnaire</title>
+</head>
+<body>
+	
+	<h1>Delete your Questionnaire</h1>
+	
+	<table>
+		<thead>
+			<tr>
+				<th>Product</th>
+				<th>Date</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="q : ${questionnaires}">
+				<td th:text="${q.product}"></td>
+				<td th:text="${ q.date }"></td>
+				<td><a th:href="@{/DeleteQuestionnaire(questionnaireid=${q.id})}">Delete</a></td>
+			</tr>
+		</tbody>
+	</table></body>
+</html>

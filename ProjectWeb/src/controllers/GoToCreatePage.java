@@ -19,10 +19,10 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import service.UserService;
 
 /**
- * Servlet implementation class GoToAdminHome
+ * Servlet implementation class GoToCreate
  */
-@WebServlet("/AdminHome")
-public class GoToAdminHome extends HttpServlet {
+@WebServlet("/GoToCreatePage")
+public class GoToCreatePage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private TemplateEngine templateEngine;
@@ -31,7 +31,7 @@ public class GoToAdminHome extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GoToAdminHome() {
+    public GoToCreatePage() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -55,7 +55,7 @@ public class GoToAdminHome extends HttpServlet {
 			return;
 		}
 		// Redirect to the Home page and add missions to the parameters
-		String path = "/WEB-INF/AdminHome.html";
+		String path = "/WEB-INF/Create.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		templateEngine.process(path, ctx, response.getWriter());
@@ -69,6 +69,5 @@ public class GoToAdminHome extends HttpServlet {
 	public void destroy() {
 	}
 
-		
-
+	
 }

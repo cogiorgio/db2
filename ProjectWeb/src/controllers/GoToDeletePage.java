@@ -2,6 +2,8 @@ package controllers;
 
 import java.io.IOException;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,23 +17,27 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
+ import model.Questionnaire;
+import service.QuestionnaireService;
 import service.UserService;
 
 /**
- * Servlet implementation class GoToAdminHome
+ * Servlet implementation class GoToDeletePage
  */
-@WebServlet("/AdminHome")
-public class GoToAdminHome extends HttpServlet {
+@WebServlet("/GoToDeletePage")
+public class GoToDeletePage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private TemplateEngine templateEngine;
 	@EJB(name = "service/UserService")
-	private UserService usrService;       
+	private UserService usrService; 
+	
+	@EJB(name = "service/QuestionnaireService")
+	private QuestionnaireService qService; 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GoToAdminHome() {
+    public GoToDeletePage() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -54,10 +60,22 @@ public class GoToAdminHome extends HttpServlet {
 			response.sendRedirect(loginpath);
 			return;
 		}
+		
+		List<Questionnaire> questionnaires = null;
+		
+		try {			
+			questionnaires = qService.findAllQuestionnaire();
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
+			return;
+		}
 		// Redirect to the Home page and add missions to the parameters
-		String path = "/WEB-INF/AdminHome.html";
+		//così vedo la tabella con tutti i questionnaire, un altro modo più sensato potrebbe essere inserire il prodotto e/o la data/id
+		String path = "/WEB-INF/Delete.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		ctx.setVariable("questionnaires", questionnaires);
+		
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 
@@ -69,6 +87,5 @@ public class GoToAdminHome extends HttpServlet {
 	public void destroy() {
 	}
 
-		
 
 }

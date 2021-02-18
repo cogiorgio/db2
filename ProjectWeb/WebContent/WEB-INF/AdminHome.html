@@ -1,37 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 <meta charset="ISO-8859-1">
-<title>App Home</title>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../CSS/mystyle.css" th:href="@{/css/mystyle.css}" />
+<title>Admin Home Page</title>
 </head>
 <body>
 
 
-	<h1>Welcome to the Home Page</h1>
+	<h1>Welcome to the administrator page</h1>
 	<h2>(Navigation Version)</h2>
 	
-		<div class="formdiv">
-		<p>Complete the form to create a questionnaire</p>
-		<form action="#" th:action="@{/CreateQuestionnaire}" method="POST">
-			<fieldset>
-				<p>
-					Product: <input type="text" name="product" required />
-				</p>
-				<p>
-					Date: <input type="date" name="date"
-						th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
-						placeholder="yyyy-mm-dd" required />
-				</p>
-				<p>
-					<!-- gestire l'inserimento di più domande -->	
-					Question: <input type="text" name="question" required />
-				</p>				
-				<input type="submit" name="Create questionnaire" value="Create">
-			</fieldset>
-		</form>
-		</div>
+	<div align="right">
+		<a th:href="@{/GoToCreatePage}">Create</a>  <a th:href="@{/GoToDeletePage}">Delete</a> <a th:href="@{/Logout}">Logout</a>
+	</div>
 
+     
+     
 </body>
 </html>
