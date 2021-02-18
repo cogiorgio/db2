@@ -53,10 +53,11 @@ public class UserService {
     		}
     	}
     	
-    	public User signIn(String usrn,String psswrd) throws CredentialsException {
+    	public User signIn(String usrn,String psswrd, String mail) throws CredentialsException {
     		List<User> uList = null;
+ 
     		try {
-    			uList = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).getResultList();
+    			uList = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).setParameter(2,psswrd).getResultList();
     		} catch (PersistenceException e) {
     			throw new CredentialsException("Could not verify credentals");
     		}
@@ -72,6 +73,8 @@ public class UserService {
     			User u=new User();
     			u.setUsername(usrn);
     			u.setPassword(psswrd);
+    			u.setMail(mail);
+    			em.persist(u);
     			System.out.println("User created.");
     			return u;
     		}	
