@@ -53,27 +53,17 @@ public class UserService {
     		}
     	}
     	
-    	public User signIn(String usrn,String psswrd, String mail) throws CredentialsException {
+    	public User signIn(String username,String password, String mail) throws CredentialsException {
     		List<User> uList = null;
  
     		try {
-    			uList = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).setParameter(2,psswrd).getResultList();
+    			uList = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, username).setParameter(2,password).getResultList();
     		} catch (PersistenceException e) {
     			throw new CredentialsException("Could not verify credentals");
     		}
     		if (uList.isEmpty()) {
-    			/*if(em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, ).getResultList().isEmpty()) {
-    				User u=new User();
-    				u.setUsername(usrn);
-    				u.setPassword(psswrd);
-    				System.out.println("user created.");
-    			}else {
-    				throw new NonUniqueResultException("Email already used.");
-    			}*/
-    			User u=new User();
-    			u.setUsername(usrn);
-    			u.setPassword(psswrd);
-    			u.setMail(mail);
+    			//if(em.createNamedQuery("User.checkCredentials", User.class).setParameter(1,usrn ).getResultList().isEmpty());   
+    			User u=new User(username, password, mail);
     			em.persist(u);
     			System.out.println("User created.");
     			return u;

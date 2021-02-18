@@ -31,6 +31,11 @@ public class Questionnaire implements Serializable {
 
 	public Questionnaire() {
 	}
+	
+	public Questionnaire(String product, Date date) {
+		this.product=product;
+		this.date= date;
+	}
 
 	public int getId() {
 		return this.id;
