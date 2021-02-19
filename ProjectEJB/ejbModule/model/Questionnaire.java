@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Questionnaire.findAll", query="SELECT q FROM Questionnaire q")
+@NamedQueries({@NamedQuery(name="Questionnaire.findAll", query="SELECT q FROM Questionnaire q"), @NamedQuery(name="Questionnaire.findByDate", query="SELECT q FROM Questionnaire q WHERE q.date= :date")})
 public class Questionnaire implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -29,6 +30,10 @@ public class Questionnaire implements Serializable {
 	//bi-directional many-to-one association to Question
 	@OneToMany(mappedBy="questionnaire", cascade= CascadeType.REMOVE)
 	private List<Question> questions;
+	
+	//bi-directional one-to-Many association to Reviews
+	@OneToMany(mappedBy="questionnaire",  cascade= CascadeType.REMOVE)
+	private List<Review> reviews;
 
 	public Questionnaire() {
 	}
@@ -82,6 +87,26 @@ public class Questionnaire implements Serializable {
 		question.setQuestionnaire(null);
 
 		return question;
+	}
+	
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+	
+	public Review addReview(Review review) {
+		getReviews().add(review);
+		review.setQuestionnaire(this);
+
+		return review;
+	}
+
+	public void removeReview(Review review) {
+		getReviews().remove(review);
+		review.setQuestionnaire(null);
 	}
 
 }

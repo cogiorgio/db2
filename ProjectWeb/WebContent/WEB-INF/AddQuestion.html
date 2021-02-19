@@ -11,9 +11,16 @@
 		<p>Add a question</p>
 		<form action="#" th:action="@{/AddQuestion}" method="POST">
 			<fieldset>
+				<p>
+					Text: <input type="text" name="text" required />
+				</p>
 				<input type="submit" name="Add a question" value="Add a question">
 			</fieldset>
 		</form>
+		</div>
+		
+		<div align="right">
+		<a th:href="@{/AdminHome}">Home</a>
 		</div>
 </body>
 </html>

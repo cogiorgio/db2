@@ -51,7 +51,6 @@ public class CreateQuestionnaire extends HttpServlet {
 	private Date getToday() {
 		Date today=new Date(System.currentTimeMillis());
 		return today;
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -97,39 +96,9 @@ public class CreateQuestionnaire extends HttpServlet {
 		request.getSession().setAttribute("questionnaire", created);
 		String path = getServletContext().getContextPath() + "/GoToAddQuestions";
 		response.sendRedirect(path);
-		//come faccio a passare il parametro dell'id del questionario?
-		/*String ctxpath = getServletContext().getContextPath();
-		String path = ctxpath + "/GoToAddQuestions";
-		response.sendRedirect(path);*/
+
 	}
 	
-	/*protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		Questionnaire questionnaire = null;
-		Integer created = null;
-		if (request.getParameterMap().containsKey("qId") && request.getParameter("qId") != ""
-				&& !request.getParameter("qId").isEmpty()) {
-			try {
-				created = Integer.parseInt(request.getParameter("qId"));
-			} catch (Exception e) {
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid parameters");
-				return;
-			}
-		}
-		if (created != null)
-			album = aService.findById(chosen);
-		if (created == null | album == null)
-			album = aService.findDefault();
-
-
-		String path = "/WEB-INF/index.html/AddQuestion.html";
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		if (created != null)
-			ctx.setVariable("createdq", created);
-		templateEngine.process(path, ctx, response.getWriter());
-
-	}*/
 
 	public void destroy() {
 	}

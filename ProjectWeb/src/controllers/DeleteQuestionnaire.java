@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -28,6 +29,11 @@ public class DeleteQuestionnaire extends HttpServlet {
 
 	public void init() throws ServletException {
 	}
+	
+	private Date getToday() {
+		Date today=new Date(System.currentTimeMillis());
+		return today;
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -52,9 +58,9 @@ public class DeleteQuestionnaire extends HttpServlet {
 
 		// Delete alle the review??
 		try {
-			qService.deleteQuestionnaire(questionnaireId);
+			qService.deleteQuestionnaire(questionnaireId, getToday());
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Sbatti");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
 			return;
 		}
 
@@ -63,6 +69,12 @@ public class DeleteQuestionnaire extends HttpServlet {
 		String path = ctxpath + "/AdminHome";
 		response.sendRedirect(path);
 
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 	public void destroy() {
