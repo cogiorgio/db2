@@ -3,7 +3,6 @@
 	<name>myappWEB</name>
 	<comment></comment>
 	<projects>
-		<project>myappEJB</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

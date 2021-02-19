@@ -10,6 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="Blacklist.findAll", query="SELECT b FROM Blacklist b")
+//@NamedQuery(name="Blacklist.findAllBaddies", query="SELECT b.badwords FROM Blacklist b")
 public class Blacklist implements Serializable {
 	private static final long serialVersionUID = 1L;
 
