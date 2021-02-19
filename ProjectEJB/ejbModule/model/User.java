@@ -29,6 +29,8 @@ public class User implements Serializable {
 	
 	private boolean blocked;
 	
+	private int points;
+	
 	//bi-directional many-to-one association to Question
 	@OneToMany(mappedBy="user", cascade= CascadeType.REMOVE)
 	private List<Review> reviews;
@@ -41,6 +43,7 @@ public class User implements Serializable {
 		this.password=password;
 		this.mail=mail;
 		this.blocked=false;
+		this.points=0;
 	}
 
 	public int getId() {
@@ -83,6 +86,14 @@ public class User implements Serializable {
 		this.blocked = blocked;
 	}
 
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+	
 	public List<Review> getReviews() {
 		return reviews;
 	}

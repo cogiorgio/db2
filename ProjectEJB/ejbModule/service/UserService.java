@@ -11,6 +11,7 @@ import javax.persistence.PersistenceException;
 
 import exceptions.CredentialsException;
 import exceptions.UpdateProfileException;
+import model.Review;
 import model.User;
 
 /**
@@ -72,5 +73,6 @@ public class UserService {
     			throw new NonUniqueResultException("Username already used.");
     		return null;
     	}
-    }
+
+}
 

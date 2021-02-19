@@ -11,7 +11,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-
+@NamedQuery(name="Review.findByUserQ", query="SELECT r FROM Review r WHERE r.questionnaire.id = :questionnaire AND r.user.id = :user")
 public class Review implements Serializable {
 
 	
@@ -26,9 +26,7 @@ public class Review implements Serializable {
 	private char sex;
 	
 	private int level;
-	
-	private int points;
-	
+		
 	private String status;
 	
 	@Temporal(TemporalType.DATE)
@@ -90,16 +88,6 @@ public class Review implements Serializable {
 
 	public void setLevel(int expLevel) {
 		this.level = expLevel;
-	}
-
-
-	public int getPoints() {
-		return points;
-	}
-
-
-	public void setPoints(int points) {
-		this.points = points;
 	}
 
 
