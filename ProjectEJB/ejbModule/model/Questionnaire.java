@@ -13,7 +13,8 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQueries({@NamedQuery(name="Questionnaire.findAll", query="SELECT q FROM Questionnaire q"), @NamedQuery(name="Questionnaire.findByDate", query="SELECT q FROM Questionnaire q WHERE q.date= :date")})
+@Table(name = "questionnaire", schema = "projectdb")
+@NamedQueries({@NamedQuery(name="Questionnaire.findAll", query="SELECT q FROM Questionnaire q"), @NamedQuery(name="Questionnaire.findByDate", query="SELECT q FROM Questionnaire q WHERE q.date= :qdate")})
 public class Questionnaire implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,6 +24,7 @@ public class Questionnaire implements Serializable {
 
 	private String product;
 	
+	@Column(name = "date")
 	@Temporal(TemporalType.DATE)
 	private Date date;
 

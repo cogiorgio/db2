@@ -64,5 +64,10 @@ public class Answer implements Serializable {
 	public void setReview(Review review) {
 		this.review = review;
 	}
+	
+	public String toString() {
+		String s= "Question id"+ getQuestion().getId()+ "answer" + getText();
+		return s;
+	}
 
 }
