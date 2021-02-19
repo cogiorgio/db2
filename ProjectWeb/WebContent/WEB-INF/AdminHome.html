@@ -18,7 +18,7 @@
 		<form action="#" th:action="@{/GoToInspection}" method="GET">
 			<fieldset>
 				<p>
-					Date: <input type="text" name="date" 
+					Date: <input type="date" name="date" 
 					th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
 						placeholder="yyyy-mm-dd"
 					    required />
@@ -30,7 +30,21 @@
 	<div align="center">
 		<a th:href="@{/Logout}">Logout</a>
 	</div>
-     
+    
+    	<div class="formdiv">
+		<p>Insert the date of the questionnaire to inspect</p>
+		<form action="#" th:action="@{/GoToLeaderboard}" method="GET">
+			<fieldset>
+				<p>
+					Date: <input type="date" name="date" 
+					th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
+						placeholder="yyyy-mm-dd"
+					    required />
+				</p>				
+				<input type="submit" name="Inspect questionnaire" value="Inspect">
+			</fieldset>
+		</form>
+	</div>
      
 </body>
 </html>
