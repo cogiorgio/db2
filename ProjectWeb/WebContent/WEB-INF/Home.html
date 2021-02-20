@@ -22,6 +22,39 @@
 		</form>
 	</div>
 	
+
+	<h3>User reviews</h3>
+	
+		<table>
+			<thead>
+				<tr><th>User</th><th>Age</th><th>Sex</th><th>Level</th></tr>
+			</thead>
+			<tbody>
+				<tr th:each="r : ${reviews}">
+					<td th:text="${r.user.id }"></td>
+					<td th:text="${r.age }"></td>
+					<td th:text="${r.sex }"></td>
+					<td th:text="${r.level }"></td>
+					<td th:text="${r.answers.get(0) }"></td>
+				</tr>
+			</tbody>
+		</table>
+		
+	<div align="center">
+		<a th:href="@{/GoToLeaderboard}">Go to Leaderboard Page</a>
+	</div>
+	
+	<div th:fragment="list(review)">
+
+		<ul th:unless="${#lists.isEmpty(reviews)}">
+
+			<li th:each="a : ${review.answers}"><span
+				th:text="${a.getQuestion().id + ' Answer: ' +    a.getText()}"></span>
+
+		</ul>
+
+	</div>
+	
 	
 </body>
 </html>

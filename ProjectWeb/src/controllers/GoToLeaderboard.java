@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.joda.time.DateTime;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -62,18 +63,9 @@ public class GoToLeaderboard extends HttpServlet {
 		}
 
 		// Get and parse all parameters from request	
-		Date date = null;
 
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			date = (Date) sdf.parse(request.getParameter("date"));
-		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad format of the reqeust");
-		}
-
-		try {
-			System.out.println(date);
-			q= qService.findByDate(date);
+			q= qService.getQuestionnaireOfTheDay();
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Questionnaire not found");
 			return;
@@ -84,7 +76,8 @@ public class GoToLeaderboard extends HttpServlet {
 		}
 		
 		List<User> userSubmitted= qService.findUserSubmitted(q);
-	
+		
+		System.out.println(userSubmitted.size());
 							
 		String path = "/WEB-INF/Leaderboard.html";
 		ServletContext servletContext = getServletContext();

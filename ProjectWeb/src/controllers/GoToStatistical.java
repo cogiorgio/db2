@@ -59,6 +59,9 @@ public class GoToStatistical extends HttpServlet {
 		ReviewService revService=null;
 		revService = (ReviewService) request.getSession().getAttribute("revService");
 		List<String> parameterNames = new ArrayList<String>(request.getParameterMap().keySet());
+		System.out.println(revService.getAnswers());
+		System.out.println("degub1");
+
 		for(int i=0;i<parameterNames.size();i++) {
 			String key=parameterNames.get(i);
 			revService.addAnswer(key, request.getParameter(key));

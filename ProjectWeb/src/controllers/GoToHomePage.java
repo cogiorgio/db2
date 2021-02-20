@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
@@ -16,7 +17,9 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import exceptions.QuestionnaireException;
+import model.Answer;
 import model.Questionnaire;
+import model.Review;
 import service.QuestionnaireService;
 import service.UserService;
 
@@ -63,11 +66,15 @@ public class GoToHomePage extends HttpServlet {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not find the questionnaire of the day");
 		}
+		
+		List<Review> reviews= qstService.getSubmittedReviews(q);
+		
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Home.html";
 		if(q!=null) {
 		ctx.setVariable("questionnaire", q);
+		ctx.setVariable("reviews",q.getReviews());
 		}
 
 		templateEngine.process(path, ctx, response.getWriter());

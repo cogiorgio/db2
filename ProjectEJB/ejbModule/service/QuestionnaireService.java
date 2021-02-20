@@ -124,5 +124,17 @@ public class QuestionnaireService {
 		else throw new QuestionnaireException("Not unique result");
 	}
 	
+	public List<Review> getSubmittedReviews(Questionnaire q){
+		List<Review> reviews= new ArrayList<Review>();
+		
+		for(Review r: q.getReviews()) {
+			if(r.getStatus().contains("submitted")) {
+				reviews.add(r);
+			}
+		}
+		return reviews;
+		
+	}
+	
 	
 }

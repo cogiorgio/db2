@@ -25,7 +25,7 @@ public class Review implements Serializable {
 	
 	private char sex;
 	
-	private int level;
+	private String level;
 		
 	private String status;
 	
@@ -81,12 +81,12 @@ public class Review implements Serializable {
 	}
 
 
-	public int getLevel() {
+	public String getLevel() {
 		return level;
 	}
 
 
-	public void setLevel(int expLevel) {
+	public void setLevel(String expLevel) {
 		this.level = expLevel;
 	}
 

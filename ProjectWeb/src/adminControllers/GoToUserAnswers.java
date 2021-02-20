@@ -77,8 +77,6 @@ public class GoToUserAnswers extends HttpServlet {
 
 
 		try {
-			System.out.println(userId);
-			System.out.println(qId);
 			r= rService.findByUserQuestionnaire(userId, qId);
 			
 		} catch (Exception e) {
