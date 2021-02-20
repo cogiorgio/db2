@@ -77,10 +77,12 @@ public class CreateQuestionnaire extends HttpServlet {
 				throw new Exception ("Missing or empty product");
 			}
 
-			String datetime= request.getParameter("date");
+			/*String datetime= request.getParameter("date");
 			DateTime time = DateTime.parse(datetime);
-
-			date= time.toDate();
+			date= time.toDate();*/
+			String pattern="yyyy-MM-dd";
+			SimpleDateFormat formatter= new SimpleDateFormat(pattern);
+			date= formatter.parse(request.getParameter("date"));
 			illegalDate =  date.before(getToday());
 
 		} catch (Exception e) {
@@ -104,8 +106,6 @@ public class CreateQuestionnaire extends HttpServlet {
 		response.sendRedirect(path);
 
 	}
-	
-
 	public void destroy() {
 	}
 
