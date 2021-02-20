@@ -17,9 +17,12 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import exceptions.BlacklistException;
 import exceptions.CredentialsException;
 import model.User;
 import service.UserService;
+import model.Blacklist;
+import service.BlacklistService;
 
 /**
  * Servlet implementation class CheckLogin
@@ -31,6 +34,9 @@ public class CheckLogin extends HttpServlet {
 	private TemplateEngine templateEngine;
 	@EJB(name = "model/UserService")
 	private UserService usrService;
+	
+	@EJB(name = "model/BlacklistService") //blacklist service test
+	private BlacklistService bService; 
 
 	public CheckLogin() {
 		super();
@@ -84,8 +90,21 @@ public class CheckLogin extends HttpServlet {
 		} else {
 			request.getSession().setAttribute("user", user);
 			path = getServletContext().getContextPath() + "/AdminHome";
-			response.sendRedirect(path);
+			response.sendRedirect(path); 
+			
+			/*
+			//blacklistService test
+			
+			String temp = "hey, Stronz";
+			try {
+				bService.checkBlacklist(temp, user);
+			} catch (BlacklistException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
 		}
+		
+		
 
 	}
 
