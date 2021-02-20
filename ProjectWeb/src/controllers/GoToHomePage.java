@@ -58,8 +58,9 @@ public class GoToHomePage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("bau");
-        Questionnaire q=null;
+        Questionnaire q = null;
 		try {
+			System.out.println("bau bau");
 			q = qstService.getQuestionnaireOfTheDay();
 		} catch (QuestionnaireException e) {
 			// TODO Auto-generated catch block
