@@ -39,7 +39,7 @@ public class AdminService {
     		else if (aList.size() == 1)
     			
     			return aList.get(0);
-    		throw new NonUniqueResultException("More than one admin registered with same credentials");
+    		throw new CredentialsException("More than one admin registered with same credentials");
     	}
 
     	public void updateProfile(Admin a) throws UpdateProfileException {
@@ -54,18 +54,17 @@ public class AdminService {
     		List<Admin> aList = null;
  
     		try {
-    			aList = em.createNamedQuery("Admin.checkCredentials", Admin.class).setParameter(1, username).setParameter(2,password).getResultList();
+    			aList = em.createNamedQuery("Admin.checkUsername", Admin.class).setParameter(1, username).getResultList();
     		} catch (PersistenceException e) {
     			throw new CredentialsException("Could not verify credentals");
     		}
     		if (aList.isEmpty()) {
     			Admin a=new Admin(username, password, mail);
     			em.persist(a);
-    			System.out.println("Admin created");
     			return a;
     		}	
     		else if (aList.size() >= 1) 
-    			throw new NonUniqueResultException("Username already used.");
+    			throw new CredentialsException("Username already used.");
     		return null;
     	}
 

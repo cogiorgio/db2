@@ -64,11 +64,10 @@ public class CheckLoginAdmin extends HttpServlet {
 		}
 		Admin admin = null;
 		try {
-			// query db to authenticate for user
+			// query db to authenticate admin
 			admin = admService.checkCredentials(usrn, pwd);
 		} catch (CredentialsException | NonUniqueResultException e) {
-			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 			return;
 		}
 
@@ -83,7 +82,7 @@ public class CheckLoginAdmin extends HttpServlet {
 			templateEngine.process(path, ctx, response.getWriter());
 		} else {
 			request.getSession().setAttribute("admin", admin);
-			path = getServletContext().getContextPath() + "/AdminHome";
+			path = getServletContext().getContextPath() + "/GoToAdminHome";
 			response.sendRedirect(path); 
 		}	
 

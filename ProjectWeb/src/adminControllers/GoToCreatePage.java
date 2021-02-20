@@ -25,9 +25,7 @@ import service.UserService;
 public class GoToCreatePage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private TemplateEngine templateEngine;
-	@EJB(name = "service/UserService")
-	private UserService usrService;       
+	private TemplateEngine templateEngine;      
     /**
      * @see HttpServlet#HttpServlet()
      */

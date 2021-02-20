@@ -16,18 +16,19 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import service.AdminService;
 import service.UserService;
 
 /**
  * Servlet implementation class GoToAdminHome
  */
-@WebServlet("/AdminHome")
+@WebServlet("/GoToAdminHome")
 public class GoToAdminHome extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private TemplateEngine templateEngine;
-	@EJB(name = "service/UserService")
-	private UserService usrService;       
+	@EJB(name = "service/AdminService")
+	private AdminService admService;       
     /**
      * @see HttpServlet#HttpServlet()
      */
