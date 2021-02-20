@@ -37,8 +37,9 @@ public class BlacklistService {
     	List<Blacklist> bList = null;
     	try 
     	{
-    		bList = em.createQuery("SELECT b FROM Blacklist b").getResultList();
-    		//bList = em.createNamedQuery("Blacklist.findALL", Blacklist.class).getResultList(); 
+    		//bList = em.createQuery("SELECT b FROM Blacklist b").getResultList();
+    		bList = em.createNamedQuery("Blacklist.findAll", Blacklist.class).getResultList(); 
+    		
     		//NamedQueryNotFound wtf!?
     		//TypedQuery<Blacklist> query = em.createNamedQuery("Blacklist.findALL", Blacklist.class);
     		//bList = query.getResultList();
@@ -51,11 +52,11 @@ public class BlacklistService {
     	//String [] baddies = new String[bList.size()]; 
     	
     	//baddies = ((Blacklist) bList).getBadwords().toArray();
-    	
-    	String baddies = "$";
+    	    	
+    	//String baddies = "$";
     	for (Blacklist badword : bList)
     	{
-    		baddies = badword.getBadwords();
+    		String baddies = badword.getBadwords();
     		if(inputText.contains(baddies))
     		{
     			found = true;

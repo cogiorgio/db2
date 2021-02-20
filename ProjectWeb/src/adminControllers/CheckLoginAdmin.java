@@ -83,7 +83,7 @@ public class CheckLoginAdmin extends HttpServlet {
 		} else {
 			request.getSession().setAttribute("admin", admin);
 			path = getServletContext().getContextPath() + "/GoToAdminHome";
-			response.sendRedirect(path); 
+			response.sendRedirect(path);
 		}	
 
 	}

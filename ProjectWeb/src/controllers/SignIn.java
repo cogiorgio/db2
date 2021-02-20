@@ -17,8 +17,10 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import exceptions.BlacklistException;
 import exceptions.CredentialsException;
 import model.User;
+import service.BlacklistService;
 import service.UserService;
 
 /**
@@ -31,6 +33,9 @@ public class SignIn extends HttpServlet {
 	private TemplateEngine templateEngine;
 	@EJB(name = "model/UserService")
 	private UserService usrService;
+	@EJB(name = "model/BlacklistService") //blacklist service test
+	private BlacklistService bService; 
+
 
 	public SignIn() {
 		super();
@@ -70,6 +75,14 @@ public class SignIn extends HttpServlet {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
 			return;
+		}
+		
+		String temp = usrn;
+		try {
+			bService.checkBlacklist(temp, user);
+		} catch (BlacklistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		// If the user exists, add info to the session and go to home page, otherwise
