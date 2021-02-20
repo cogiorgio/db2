@@ -27,6 +27,8 @@ CREATE TABLE `questionnaire` (
 `id` int NOT NULL AUTO_INCREMENT,
 `product` varchar(45) NOT NULL,
 `date` date NOT NULL,
+`img` mediumblob,
+
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -36,7 +38,7 @@ CREATE TABLE `review` (
 `questionnaire` int NOT NULL,
 `sex` varchar(1),
 `age` int,
-`level` int,
+`level` varchar(45),
 `status` varchar(45) NOT NULL,
 `logData` date NOT NULL,
 PRIMARY KEY (`id`),
