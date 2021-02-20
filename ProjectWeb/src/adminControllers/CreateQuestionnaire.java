@@ -4,6 +4,7 @@ import java.io.IOException;
 
 
 
+
 import java.util.Date;
 import java.util.List;
 import java.text.ParseException;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.joda.time.DateTime;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -74,14 +76,18 @@ public class CreateQuestionnaire extends HttpServlet {
 			if(product.isEmpty() | product==null) {
 				throw new Exception ("Missing or empty product");
 			}
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			date = (Date) sdf.parse(request.getParameter("date"));
-			illegalDate =  date.before(getToday());			
+
+			String datetime= request.getParameter("date");
+			DateTime time = DateTime.parse(datetime);
+
+			date= time.toDate();
+			illegalDate =  date.before(getToday());
+
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad format of the reqeust");
 		}
 		if (illegalDate) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect date");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Not possible to create a questionnaire for a past date");
 			return;
 		}
 
@@ -89,7 +95,7 @@ public class CreateQuestionnaire extends HttpServlet {
 		try {
 			created= qService.createQuestionnaire(product, date);
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to create questionnaire");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
 			return;
 		}
 		

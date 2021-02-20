@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.joda.time.DateTime;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -71,10 +72,11 @@ public class GoToInspection extends HttpServlet {
 		Date date = null;
 
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			date = (Date) sdf.parse(request.getParameter("date"));
+			String datetime= request.getParameter("date");
+			DateTime time = DateTime.parse(datetime);
+			date= time.toDate();
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad format of the reqeust");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad format of the request");
 		}
 		if (date.after(getToday())) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "The questionnaire is not of a past day");

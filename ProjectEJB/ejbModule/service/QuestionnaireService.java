@@ -38,29 +38,25 @@ public class QuestionnaireService {
     
 	public Questionnaire createQuestionnaire(String product, Date date) throws QuestionnaireException {
 		Questionnaire q= findByDate(date);
-		
+			
 		if(q==null) {
 			q= new Questionnaire (product, date);
 			em.persist(q);
 			em.flush();
 			return q;
 		}
-		else throw new QuestionnaireException("A questionnaire of the day already exists");
+		else throw new QuestionnaireException("A questionnaire already exists for the selected date");
 	}
 
 	public void deleteQuestionnaire(Integer qId, Date today) throws QuestionnaireException {
 		Questionnaire q = em.find(Questionnaire.class, qId);
 		if (q == null)
-			return;
-		
-		System.out.println(q.getDate());
-		
-		if(q.getDate().before(today)) {
-		
+			return;		
+		if(q.getDate().before(today)) {	
 			em.remove(q);
 		}
 		
-		else throw new QuestionnaireException("Not allowed to delete this questionnaire");
+		else throw new QuestionnaireException("Not possible to delete a questionnaire of future day ");
 	}
 	
 	public List<Questionnaire> findAllQuestionnaire() throws QuestionnaireException {
@@ -76,20 +72,16 @@ public class QuestionnaireService {
 		return questionnaires;
 	}
 	
-	public Questionnaire findByDate(Date date) throws QuestionnaireException {
-		//Questionnaire q=em.createNamedQuery("Questionnaire.findByDate", Questionnaire.class).setParameter("date", date, TemporalType.DATE).getSingleResult();
-		
-		System.out.println(date.toString());
-								
+	public Questionnaire findByDate(Date date) throws QuestionnaireException {						
 		List<Questionnaire> q=em.createNamedQuery("Questionnaire.findByDate", Questionnaire.class).setParameter("qdate", date).getResultList();
-		
+
 		if(q.isEmpty()) {
 			return null;
 		}
 		else if(q.size()==1) {
 			return q.get(0);
 		}
-		throw new QuestionnaireException("not unique result");
+		throw new QuestionnaireException("Not unique result");
 	}
 	
 	public List<User> findUserSubmitted(Questionnaire q){
@@ -98,11 +90,9 @@ public class QuestionnaireService {
 		
 		for(Review r: q.getReviews()) {
 			if(r.getStatus().contains("submitted")) {
-				System.out.println("adding"+ r.getUser().getUsername());
 				users.add(r.getUser());
 			}
 		}
-		System.out.println(users.get(0).getId());
 		return users;		
 	}
 	
