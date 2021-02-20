@@ -23,7 +23,7 @@ import service.UserService;
 /**
  * Servlet implementation class GoToHomePage
  */
-@WebServlet("/GoToHomePage")
+@WebServlet("/GoToHome")
 public class GoToHomePage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
