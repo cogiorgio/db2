@@ -10,7 +10,18 @@
 
 
 	<h1>Welcome to the Home Page</h1>
-	<h2>(Navigation Version)</h2>
+	<div th:if="${questionnaire!=null }">
+		<form action="GoToQuestionnaire" method="get">
+			<span th:text="'Product ' + ${questionnaire.product}"> </span> 
+			<span th:text="'Image' + ${questionnaire.img}"></span> 	
+			<img width="100px" alt="thumb"
+				th:src="*{'data:image/png;base64,'+ questionnaire.getImg()}"> 
+	
+			<input type="hidden" name="productId" th:value="${questionnaire.id}">
+			<input type="submit" value="go to questionnaire">
+		</form>
+	</div>
+	
 	
 </body>
 </html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>App Home</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../CSS/mystyle.css" th:href="@{/css/mystyle.css}" />
+</head>
+<body>
+
+
+	<h1>Welcome to the Statistics Page!</h1>
+	
+    <div>
+    	<form id="form1" action="create" method="post">
+    		<table>
+    			<tr>
+     				<th>Age</th><th><input name="age" type="number"  th:value="${age!=null?age:''}"></th>
+    			</tr>
+    			<tr>
+     				<th>Sex</th>
+     				<th>
+						<select name="sex" >
+							<option value="none"></option>
+					  		<option value="M" th:selected='${sex=="M"}'>M</option>
+	  						<option value="F" th:selected='${sex=="F"}' >F</option>
+  						</select>
+  					</th>
+    			</tr>
+    			<tr>
+     				<th>Level</th>
+     				<th>
+						<select name="level" th:value="${level!=null?level:''}">
+						    <option value="none"></option>
+  							<option value="low" th:selected='${level=="low"}'>low</option>
+  							<option value="medium" th:selected='${level=="medium"}'>medium</option>
+  							<option value="high" th:selected='${level=="high"}'>high</option>
+  						</select>
+  					</th>
+    			</tr>
+    			<tr>
+	    			<th></th>
+	    			<th>
+	    				<input  type="submit"  value="Create"></th><th><input  type="submit"  value="back" onClick="document.getElementById('form1').setAttribute('action','GoBack')">
+	    			</th>
+    			</tr>
+    		</table>
+  		</form>
+  	
+  		<table>
+  			<tr>
+  				<th>
+					<form action="Cancel" method="get">
+					<input  type="submit"  value="cancel">
+			
+					</form></th></tr>
+	</table>				
+		  
+			
+		</div>
+
+</body>
+</html>

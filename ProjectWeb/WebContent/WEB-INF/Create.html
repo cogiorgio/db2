@@ -13,7 +13,8 @@
 	
 		<div class="formdiv">
 		<p>Complete the form to create a questionnaire</p>
-		<form action="#" th:action="@{/CreateQuestionnaire}" method="POST">
+		<form action="#" th:action="@{/CreateQuestionnaire}" method="POST" enctype="multipart/form-data">
+			
 			<fieldset>
 				<p>
 					Product: <input type="text" name="product" required />
@@ -22,7 +23,10 @@
 					Date: <input type="date" name="date" 
 					    th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
 						placeholder="yyyy-mm-dd"required />
-				</p>				
+				</p>	
+				<p>
+					Image: <input type="file" id="imgfile" name="img">
+				</p>			
 				<input type="submit" name="Create questionnaire" value="Create">
 			</fieldset>
 		</form>

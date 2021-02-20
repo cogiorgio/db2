@@ -36,11 +36,11 @@ public class QuestionnaireService {
         // TODO Auto-generated constructor stub
     }
     
-	public Questionnaire createQuestionnaire(String product, Date date) throws QuestionnaireException {
+	public Questionnaire createQuestionnaire(String product, Date date, byte[] img) throws QuestionnaireException {
 		Questionnaire q= findByDate(date);
 			
 		if(q==null) {
-			q= new Questionnaire (product, date);
+			q= new Questionnaire (product, date, img);
 			em.persist(q);
 			em.flush();
 			return q;
@@ -106,5 +106,23 @@ public class QuestionnaireService {
 		}
 		return users;		
 	}
+	
+	public Questionnaire getQuestionnaireById(int id) {
+		return em.find(Questionnaire.class,id);
+	}
+	
+	public Questionnaire getQuestionnaireOfTheDay() throws QuestionnaireException {
+		List<Questionnaire> l= em.createNamedQuery("Questionnaire.findDaily",Questionnaire.class).setParameter("mydate", DateTime.now().toDate()).getResultList();
+		
+		if(l.isEmpty()) {
+			return null;
+		}
+		
+		if(l.size()==1) {
+			return l.get(0);
+		}
+		else throw new QuestionnaireException("Not unique result");
+	}
+	
 	
 }

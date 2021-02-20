@@ -1,10 +1,7 @@
 package adminControllers;
 
 import java.io.IOException;
-
-
-
-
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.text.ParseException;
@@ -19,12 +16,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.joda.time.DateTime;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
+import utils.ImageUtils;
 import model.Questionnaire;
 import service.QuestionnaireService;
 
@@ -32,7 +31,7 @@ import service.QuestionnaireService;
  * Servlet implementation class CreateQuestionnaire
  */
 @WebServlet("/CreateQuestionnaire")
-
+@MultipartConfig
 public class CreateQuestionnaire extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
@@ -83,7 +82,7 @@ public class CreateQuestionnaire extends HttpServlet {
 			String pattern="yyyy-MM-dd";
 			SimpleDateFormat formatter= new SimpleDateFormat(pattern);
 			date= formatter.parse(request.getParameter("date"));
-			illegalDate =  date.before(getToday());
+			//illegalDate =  date.before(getToday());
 
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad format of the reqeust");
@@ -92,10 +91,14 @@ public class CreateQuestionnaire extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Not possible to create a questionnaire for a past date");
 			return;
 		}
+		
+		Part imgFile = request.getPart("img");
+		InputStream thumbContent = imgFile.getInputStream();
+		byte[] imgByteArray = ImageUtils.readImage(thumbContent);
 
 		// Create questionnaire in DB
 		try {
-			created= qService.createQuestionnaire(product, date);
+			created= qService.createQuestionnaire(product, date, imgByteArray);
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
 			return;

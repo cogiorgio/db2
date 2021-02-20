@@ -14,7 +14,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "questionnaire", schema = "projectdb")
-@NamedQueries({@NamedQuery(name="Questionnaire.findAll", query="SELECT q FROM Questionnaire q"), @NamedQuery(name="Questionnaire.findByDate", query="SELECT q FROM Questionnaire q WHERE q.date= :qdate")})
+@NamedQueries({@NamedQuery(name="Questionnaire.findAll", query="SELECT q FROM Questionnaire q"), @NamedQuery(name="Questionnaire.findByDate", query="SELECT q FROM Questionnaire q WHERE q.date= :qdate")
+, @NamedQuery(name="Questionnaire.findDaily", query="SELECT q FROM Questionnaire q WHERE q.date = :mydate ")})
 public class Questionnaire implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -27,6 +28,9 @@ public class Questionnaire implements Serializable {
 	@Column(name = "date")
 	@Temporal(TemporalType.DATE)
 	private Date date;
+	
+	@Lob
+	private byte[] img;
 
 
 	//bi-directional many-to-one association to Question
@@ -40,9 +44,10 @@ public class Questionnaire implements Serializable {
 	public Questionnaire() {
 	}
 	
-	public Questionnaire(String product, Date date) {
+	public Questionnaire(String product, Date date, byte[] img) {
 		this.product=product;
 		this.date= date;
+		this.img=img;
 	}
 
 	public int getId() {
@@ -69,6 +74,14 @@ public class Questionnaire implements Serializable {
 		this.product = product;
 	}
 
+	public byte[] getImg() {
+		return img;
+	}
+
+	public void setImg(byte[] img) {
+		this.img = img;
+	}
+	
 	public List<Question> getQuestions() {
 		return this.questions;
 	}

@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
 import javax.persistence.NonUniqueResultException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -23,6 +24,7 @@ import model.User;
 import service.UserService;
 import model.Blacklist;
 import service.BlacklistService;
+import service.ReviewService;
 
 /**
  * Servlet implementation class CheckLogin
@@ -71,8 +73,7 @@ public class CheckLogin extends HttpServlet {
 		try {
 			// query db to authenticate for user
 			user = usrService.checkCredentials(usrn, pwd);
-		} catch (CredentialsException | NonUniqueResultException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
 			return;
 		}
@@ -88,8 +89,26 @@ public class CheckLogin extends HttpServlet {
 			path = "/index.html";
 			templateEngine.process(path, ctx, response.getWriter());
 		} else {
+			ReviewService revService=null;
+			try {
+				/*
+				 * We need one distinct EJB for each user. Get the Initial Context for the JNDI
+				 * lookup for a local EJB. Note that the path may be different in different EJB
+				 * environments. In IntelliJ use: ic.lookup(
+				 * "java:/openejb/local/ArtifactFileNameWeb/ArtifactNameWeb/QueryServiceLocalBean"
+				 * );
+				 */
+				InitialContext ic = new InitialContext();
+				// Retrieve the EJB using JNDI lookup
+				revService = (ReviewService) ic.lookup("java:/openejb/local/ReviewServiceLocalBean");
+			} catch (Exception e) {
+				e.printStackTrace();
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not get the questionnaire");
+
+			}
+			
 			request.getSession().setAttribute("user", user);
-			path = getServletContext().getContextPath() + "/Home";
+			path = getServletContext().getContextPath() + "/Home.html";
 			response.sendRedirect(path); 
 			
 			/*
