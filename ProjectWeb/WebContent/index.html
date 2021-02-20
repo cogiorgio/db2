@@ -19,7 +19,7 @@
 		Username: <input type="text" name="username" required> <br>
 		Password: <input type="password" name="pwd" required><br>
 		Mail: <input type = "text" name="mail" required> <br>
-		<input type="submit" value="signin">
+		<input type="submit" value="signinAdmin">
 		<p th:text=" ${errorMsg}"></p>
 	</form>
 	
@@ -27,7 +27,7 @@
 	<form action="CheckLoginAdmin" method="POST">
 		Username: <input type="text" name="username" required> <br>
 		Password: <input type="password" name="pwd" required><br>
-		<input type="submit" value="login">
+		<input type="submit" value="loginAdmin">
 		<p th:text=" ${errorMsg}"></p>
 	</form>
 	

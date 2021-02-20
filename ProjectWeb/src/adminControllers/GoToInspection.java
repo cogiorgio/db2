@@ -62,7 +62,7 @@ public class GoToInspection extends HttpServlet {
 			throws ServletException, IOException {
 		// If the user is not logged in (not present in session) redirect to the login
 		HttpSession session = request.getSession();
-		if (session.isNew() || session.getAttribute("user") == null) {
+		if (session.isNew() || session.getAttribute("admin") == null) {
 			String loginpath = getServletContext().getContextPath() + "/index.html";
 			response.sendRedirect(loginpath);
 			return;
