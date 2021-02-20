@@ -9,6 +9,7 @@
 		<class>model.Questionnaire</class>
 		<class>model.Review</class>
 		<class>model.User</class>
+		<class>model.Admin</class>
 		<properties>
 			<property name="eclipselink.logging.level" value="FINE" />
 		</properties>

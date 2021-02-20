@@ -1,4 +1,4 @@
-package controllers;
+package adminControllers;
 
 import java.io.IOException;
 
@@ -18,21 +18,23 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import exceptions.CredentialsException;
+import model.Admin;
 import model.User;
+import service.AdminService;
 import service.UserService;
 
 /**
- * Servlet implementation class SignIn
+ * Servlet implementation class SignInAdmin
  */
-@WebServlet("/SignIn")
-public class SignIn extends HttpServlet {
+@WebServlet("/SignInAdmin")
+public class SignInAdmin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private TemplateEngine templateEngine;
-	@EJB(name = "model/UserService")
-	private UserService usrService;
+	@EJB(name = "model/AdminService")
+	private AdminService admService;
 
-	public SignIn() {
+	public SignInAdmin() {
 		super();
 	}
 
@@ -58,14 +60,13 @@ public class SignIn extends HttpServlet {
 				throw new Exception("Missing or empty credential value");
 			}
 		} catch (Exception e) {
-			// for debugging only e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
 			return;
 		}
-		User user = null;
+		Admin admin = null;
 		try {
 			// query db to authenticate for user
-			user = usrService.signIn(usrn, pwd, mail );
+			admin = admService.signIn(usrn, pwd, mail );
 		} catch (CredentialsException | NonUniqueResultException e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
@@ -74,17 +75,16 @@ public class SignIn extends HttpServlet {
 
 		// If the user exists, add info to the session and go to home page, otherwise
 		// show login page with error message
-
 		String path;
-		if (user == null) {
+		if (admin == null) {
 			ServletContext servletContext = getServletContext();
 			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 			ctx.setVariable("errorMsg", "error");
 			path = "/index.html";
 			templateEngine.process(path, ctx, response.getWriter());
 		} else {
-			request.getSession().setAttribute("user", user);
-			path = getServletContext().getContextPath() + "/GoToHomePage";
+			request.getSession().setAttribute("admin", admin);
+			path = getServletContext().getContextPath() + "/GoToAdminHome";
 			response.sendRedirect(path);
 		}
 
@@ -92,6 +92,5 @@ public class SignIn extends HttpServlet {
 
 	public void destroy() {
 	}
-
 
 }

@@ -22,5 +22,21 @@
 		<input type="submit" value="signin">
 		<p th:text=" ${errorMsg}"></p>
 	</form>
+	
+	
+	<form action="CheckLoginAdmin" method="POST">
+		Username: <input type="text" name="username" required> <br>
+		Password: <input type="password" name="pwd" required><br>
+		<input type="submit" value="login">
+		<p th:text=" ${errorMsg}"></p>
+	</form>
+	
+	<form action="SignInAdmin" method="POST">
+		Username: <input type="text" name="username" required> <br>
+		Password: <input type="password" name="pwd" required><br>
+		Mail: <input type = "text" name="mail" required> <br>
+		<input type="submit" value="signin">
+		<p th:text=" ${errorMsg}"></p>
+	</form>
 </body>
 </html>

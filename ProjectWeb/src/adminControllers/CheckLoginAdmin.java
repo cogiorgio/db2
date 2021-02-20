@@ -1,4 +1,4 @@
-package controllers;
+package adminControllers;
 
 import java.io.IOException;
 
@@ -18,21 +18,24 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import exceptions.CredentialsException;
+import model.Admin;
 import model.User;
+import service.AdminService;
+import service.BlacklistService;
 import service.UserService;
 
 /**
- * Servlet implementation class SignIn
+ * Servlet implementation class CheckLoginAdmin
  */
-@WebServlet("/SignIn")
-public class SignIn extends HttpServlet {
+@WebServlet("/CheckLoginAdmin")
+public class CheckLoginAdmin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private TemplateEngine templateEngine;
-	@EJB(name = "model/UserService")
-	private UserService usrService;
+	@EJB(name = "model/AdminService")
+	private AdminService admService;
 
-	public SignIn() {
+	public CheckLoginAdmin() {
 		super();
 	}
 
@@ -49,23 +52,20 @@ public class SignIn extends HttpServlet {
 			throws ServletException, IOException {
 		String usrn = null;
 		String pwd = null;
-		String mail = null;
 		try {
 			usrn = StringEscapeUtils.escapeJava(request.getParameter("username"));
 			pwd = StringEscapeUtils.escapeJava(request.getParameter("pwd"));
-			mail= StringEscapeUtils.escapeJava(request.getParameter("mail"));
-			if (usrn == null || pwd == null || mail==null || usrn.isEmpty() || pwd.isEmpty() || mail.isEmpty()) {
+			if (usrn == null || pwd == null || usrn.isEmpty() || pwd.isEmpty()) {
 				throw new Exception("Missing or empty credential value");
 			}
 		} catch (Exception e) {
-			// for debugging only e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
 			return;
 		}
-		User user = null;
+		Admin admin = null;
 		try {
 			// query db to authenticate for user
-			user = usrService.signIn(usrn, pwd, mail );
+			admin = admService.checkCredentials(usrn, pwd);
 		} catch (CredentialsException | NonUniqueResultException e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
@@ -74,24 +74,21 @@ public class SignIn extends HttpServlet {
 
 		// If the user exists, add info to the session and go to home page, otherwise
 		// show login page with error message
-
 		String path;
-		if (user == null) {
+		if (admin == null) {
 			ServletContext servletContext = getServletContext();
 			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("errorMsg", "error");
+			ctx.setVariable("errorMsg", "Incorrect username or password");
 			path = "/index.html";
 			templateEngine.process(path, ctx, response.getWriter());
 		} else {
-			request.getSession().setAttribute("user", user);
-			path = getServletContext().getContextPath() + "/GoToHomePage";
-			response.sendRedirect(path);
-		}
+			request.getSession().setAttribute("admin", admin);
+			path = getServletContext().getContextPath() + "/AdminHome";
+			response.sendRedirect(path); 
+		}	
 
 	}
 
 	public void destroy() {
 	}
-
-
 }

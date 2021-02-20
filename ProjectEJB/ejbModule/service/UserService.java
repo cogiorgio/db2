@@ -22,14 +22,10 @@ public class UserService {
 	
 	@PersistenceContext(unitName = "projectEJB")
 	private EntityManager em;
-
-    /**
-     * Default constructor. 
-     */
+	
     public UserService() {}
         // TODO Auto-generated constructor stub
-    	
-    	
+  	
     	public User checkCredentials(String usrn, String pwd) throws CredentialsException, NonUniqueResultException {
     		List<User> uList = null;
     		try {

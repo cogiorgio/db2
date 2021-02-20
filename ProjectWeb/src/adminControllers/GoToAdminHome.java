@@ -50,7 +50,7 @@ public class GoToAdminHome extends HttpServlet {
 		// If the user is not logged in (not present in session) redirect to the login
 		String loginpath = getServletContext().getContextPath() + "/index.html";
 		HttpSession session = request.getSession();
-		if (session.isNew() || session.getAttribute("user") == null) {
+		if (session.isNew() || session.getAttribute("admin") == null) {
 			response.sendRedirect(loginpath);
 			return;
 		}
