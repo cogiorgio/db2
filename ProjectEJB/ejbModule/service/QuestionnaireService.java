@@ -24,6 +24,8 @@ import model.Questionnaire;
 import model.Review;
 import model.User;
 
+
+import java.time.*;
 /**
  * Session Bean implementation class QuestionnaireService
  */
@@ -112,8 +114,10 @@ public class QuestionnaireService {
 	}
 	
 	public Questionnaire getQuestionnaireOfTheDay() throws QuestionnaireException {
+		//System.out.println("DateTime.now(): " + DateTime.now());
 		//System.out.println("sysdate: " + DateTime.now().toDate());
 		List<Questionnaire> l= em.createNamedQuery("Questionnaire.findDaily",Questionnaire.class).setParameter("mydate", DateTime.now().toDate()).getResultList();
+
 		
 		if(l.isEmpty()) {
 			return null;
@@ -127,11 +131,7 @@ public class QuestionnaireService {
 	
 	public List<Review> getSubmittedReviews(Questionnaire q){
 		List<Review> reviews= new ArrayList<Review>();
-		if(q==null)
-		{
-			System.out.println("Huston abbiamo un problema");
-			return null;
-		}
+		
 		for(Review r: q.getReviews()) {
 			if(r.getStatus().contains("submitted")) {
 				reviews.add(r);
