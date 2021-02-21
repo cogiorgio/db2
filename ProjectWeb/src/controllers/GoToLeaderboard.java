@@ -21,6 +21,7 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import exceptions.QuestionnaireException;
 import model.Questionnaire;
 import model.User;
 import service.QuestionnaireService;
@@ -76,15 +77,14 @@ public class GoToLeaderboard extends HttpServlet {
 			return;
 		}
 		
-		List<User> userSubmitted= qService.findUserSubmitted(q);
-		
-		//System.out.println("Original List: " + userSubmitted);
-		Collections.sort(userSubmitted, Collections.reverseOrder());
-		System.out.println("Original List: " + userSubmitted);
-		Collections.sort(userSubmitted, Collections.reverseOrder());
-		System.out.println("Original List: " + userSubmitted);
-		//System.out.println(userSubmitted.size());
-		System.out.println("Sorted List: " + userSubmitted);
+		List<User> userSubmitted=null;
+		try {
+			userSubmitted = qService.findUserSubmitted(q);
+			Collections.sort(userSubmitted, Collections.reverseOrder());
+			Collections.sort(userSubmitted, Collections.reverseOrder());
+		} catch (QuestionnaireException e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+		}
 							
 		String path = "/WEB-INF/Leaderboard.html";
 		ServletContext servletContext = getServletContext();

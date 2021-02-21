@@ -39,7 +39,7 @@ public class UserService {
     		if (uList.isEmpty())
     			return null;
     		else if (uList.size() == 1) {
-    			uList.get(0).setLogData(new Date(System.currentTimeMillis()));
+    			uList.get(0).setLogData(new Date(System.currentTimeMillis() - 60 * 60 * 1000));
     			return uList.get(0);
     			}
     		throw new CredentialsException("More than one user registered with same credentials");

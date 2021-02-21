@@ -12,12 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.joda.time.DateTime;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+
+import exceptions.QuestionnaireException;
 
 import java.util.List;
 
@@ -72,9 +73,12 @@ public class GoToInspection extends HttpServlet {
 		Date date = null;
 
 		try {
-			String datetime= request.getParameter("date");
+			/*String datetime= request.getParameter("date");
 			DateTime time = DateTime.parse(datetime);
-			date= time.toDate();
+			date= time.toDate();*/
+			String pattern="yyyy-MM-dd";
+			SimpleDateFormat formatter= new SimpleDateFormat(pattern);
+			date= formatter.parse(request.getParameter("date"));
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad format of the request");
 		}
@@ -82,12 +86,12 @@ public class GoToInspection extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "The questionnaire is not of a past day");
 			return;
 		}
-
+		
+		//search the questionnaire
 		try {
-			System.out.println(date);
 			q= qService.findByDate(date);
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Questionnaire not found");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
 			return;
 		}
 		if(q==null) {
@@ -95,20 +99,29 @@ public class GoToInspection extends HttpServlet {
 			return;
 		}
 		
-		List<User> userSubmitted= qService.findUserSubmitted(q);
-	
-		List<User> userCancelled= qService.findUserCancelled(q);
+		//Get the list of users and the reviews
+		List<User> userSubmitted=null;
+		List<User> userCancelled=null;
+		List<Review> reviews=null;
+		try {
+			userSubmitted = qService.findUserSubmitted(q);
+			userCancelled= qService.findUserCancelled(q);
+			reviews= qService.findSubmitted(q);
+		} catch (QuestionnaireException e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+		}
+
+		System.out.println("molto bene");
 							
 		String path = "/WEB-INF/Inspection.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("subUsers", userSubmitted);
 		ctx.setVariable("cancUsers", userCancelled);
-		ctx.setVariable("reviews", q.getReviews());
+		ctx.setVariable("reviews", reviews);
 
 		
 		templateEngine.process(path, ctx, response.getWriter());
-
 
 	}
 	

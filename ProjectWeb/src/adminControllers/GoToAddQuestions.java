@@ -2,7 +2,6 @@ package adminControllers;
 
 import java.io.IOException;
 
-import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

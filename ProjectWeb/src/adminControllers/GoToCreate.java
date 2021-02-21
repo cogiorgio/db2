@@ -2,7 +2,6 @@ package adminControllers;
 
 import java.io.IOException;
 
-import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,8 +14,6 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
-import service.UserService;
 
 /**
  * Servlet implementation class GoToCreate
@@ -31,7 +28,6 @@ public class GoToCreate extends HttpServlet {
      */
     public GoToCreate() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	public void init() throws ServletException {
@@ -52,7 +48,7 @@ public class GoToCreate extends HttpServlet {
 			response.sendRedirect(loginpath);
 			return;
 		}
-		// Redirect to the Home page and add missions to the parameters
+		//Go the the Creation page
 		String path = "/WEB-INF/Create.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());

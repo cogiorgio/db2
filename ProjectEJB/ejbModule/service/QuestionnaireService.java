@@ -33,12 +33,11 @@ public class QuestionnaireService {
 	@PersistenceContext(unitName = "projectEJB")
 	private EntityManager em;
     public QuestionnaireService() {
-        // TODO Auto-generated constructor stub
     }
     
 	public Questionnaire createQuestionnaire(String product, Date date, byte[] img) throws QuestionnaireException {
 		Questionnaire q= findByDate(date);
-			
+		
 		if(q==null) {
 			q= new Questionnaire (product, date, img);
 			em.persist(q);
@@ -55,19 +54,16 @@ public class QuestionnaireService {
 		if(q.getDate().before(today)) {	
 			em.remove(q);
 		}
-		
 		else throw new QuestionnaireException("Not possible to delete a questionnaire of future day ");
 	}
 	
 	public List<Questionnaire> findAllQuestionnaire() throws QuestionnaireException {
 		List<Questionnaire> questionnaires = null;
-		try {
-			
+		try {		
 			questionnaires = em.createNamedQuery("Questionnaire.findAll", Questionnaire.class).getResultList();
 
 		} catch (PersistenceException e) {
 			throw new QuestionnaireException("Cannot load questionnares");
-
 		}
 		return questionnaires;
 	}
@@ -85,23 +81,30 @@ public class QuestionnaireService {
 		throw new QuestionnaireException("Not unique result");
 	}
 	
-	public List<User> findUserSubmitted(Questionnaire q){
+	public List<User> findUserSubmitted(Questionnaire q) throws QuestionnaireException{
 		
 		List<User> users = new ArrayList<User>();
+		
+		if(q.getReviews().isEmpty() | q.getReviews()==null) {
+			throw new QuestionnaireException("There are no reviews for the questionnaire");
+		}
 		
 		for(Review r: q.getReviews()) {
 			if(r.getStatus().contains("submitted")) {
 				User u=em.find(User.class,r.getUser().getId());
-				em.refresh(u);
-				
+				//em.refresh(u);	
 				users.add(u);
 			}
 		}
 		return users;		
 	}
 	
-	public List<User> findUserCancelled(Questionnaire q){		
+	public List<User> findUserCancelled(Questionnaire q) throws QuestionnaireException{		
 		List<User> users = new ArrayList<User>();
+		
+		if(q.getReviews().isEmpty() | q.getReviews()==null) {
+			throw new QuestionnaireException("There are no reviews for the questionnaire");
+		}
 		
 		for(Review r: q.getReviews()) {
 			if(r.getStatus().contains("cancelled")) {
@@ -115,6 +118,13 @@ public class QuestionnaireService {
 		return em.find(Questionnaire.class,id);
 	}
 	
+	public List<Review> findSubmitted(Questionnaire q) throws QuestionnaireException{
+		List<Review> reviews= em.createQuery("SELECT r FROM Review r WHERE r.id = ?1 AND r.status=?2",Review.class).setParameter(1, q.getId()).setParameter(2, "submitted").getResultList();
+		if(reviews.isEmpty() | reviews==null) {
+			throw new QuestionnaireException("There are no submited reviews for the questionnaire");
+		}
+		return reviews;
+	}
 	
 	
 }

@@ -37,9 +37,6 @@ public class CheckLogin extends HttpServlet {
 	private TemplateEngine templateEngine;
 	@EJB(name = "model/UserService")
 	private UserService usrService;
-	
-	@EJB(name = "model/BlacklistService") //blacklist service test
-	private BlacklistService bService; 
 
 	public CheckLogin() {
 		super();
@@ -111,17 +108,7 @@ public class CheckLogin extends HttpServlet {
 			request.getSession().setAttribute("user", user);
 			path = getServletContext().getContextPath() + "/GoToHome";
 			response.sendRedirect(path); 
-			
-			/*
-			//blacklistService test
-			
-			String temp = "hey, Stronz";
-			try {
-				bService.checkBlacklist(temp, user);
-			} catch (BlacklistException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
+
 		}
 		
 		

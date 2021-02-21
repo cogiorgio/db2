@@ -65,7 +65,7 @@ public class SignInAdmin extends HttpServlet {
 		}
 		Admin admin = null;
 		try {
-			// query db to authenticate for user
+			// create the admin in DB
 			admin = admService.signIn(usrn, pwd, mail );
 		} catch (CredentialsException | NonUniqueResultException e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());

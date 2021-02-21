@@ -2,6 +2,7 @@ package adminControllers;
 
 import java.io.IOException;
 
+
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -39,7 +40,6 @@ public class GoToDelete extends HttpServlet {
      */
     public GoToDelete() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	public void init() throws ServletException {
@@ -69,8 +69,7 @@ public class GoToDelete extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
 			return;
 		}
-		// Redirect to the Home page and add missions to the parameters
-		//così vedo la tabella con tutti i questionnaire, un altro modo più sensato potrebbe essere inserire il prodotto e/o la data/id
+		//Go to the Delete Page and set the questionnaire as variable
 		String path = "/WEB-INF/Delete.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());

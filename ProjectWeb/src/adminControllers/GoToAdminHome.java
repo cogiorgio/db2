@@ -2,6 +2,7 @@ package adminControllers;
 
 import java.io.IOException;
 
+
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -17,7 +18,6 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import service.AdminService;
-import service.UserService;
 
 /**
  * Servlet implementation class GoToAdminHome
@@ -55,7 +55,7 @@ public class GoToAdminHome extends HttpServlet {
 			response.sendRedirect(loginpath);
 			return;
 		}
-		// Redirect to the Home page and add missions to the parameters
+		// Redirect to the Admin Home Page
 		String path = "/WEB-INF/AdminHome.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());

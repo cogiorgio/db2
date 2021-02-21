@@ -46,17 +46,16 @@ public class DeleteQuestionnaire extends HttpServlet {
 			return;
 		}
 
-		// get and check params
+		// get and check parameters
 		Integer questionnaireId = null;
 		try {
 			questionnaireId = Integer.parseInt(request.getParameter("questionnaireid"));
 		} catch (NumberFormatException | NullPointerException e) {
-			// for debugging only e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect param values");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect parameter values");
 			return;
 		}
 
-		// Delete alle the review??
+		// Delete the questionnaire in DB
 		try {
 			qService.deleteQuestionnaire(questionnaireId, getToday());
 		} catch (Exception e) {
@@ -64,7 +63,7 @@ public class DeleteQuestionnaire extends HttpServlet {
 			return;
 		}
 
-		// Return view
+		// Return view of the Home
 		String ctxpath = getServletContext().getContextPath();
 		String path = ctxpath + "/GoToAdminHome";
 		response.sendRedirect(path);
@@ -73,7 +72,6 @@ public class DeleteQuestionnaire extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
