@@ -15,8 +15,8 @@
 			<span th:text="'Product ' + ${questionnaire.product}"> </span> 
 			<span th:text="'Image' + ${questionnaire.img}"></span> 	
 			<div>
-			<!-- <img alt="product"
-				th:src="*{'data:image/png;base64,'+ img.getImgData()}">-->
+			<!-- img alt="product"
+				th:src="*{'data:image/png;base64,'+ questionnaire.img.getImgData()}"-->
 			</div>
 		
 			<input type="hidden" name="productId" th:value="${questionnaire.id}">

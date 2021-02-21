@@ -101,7 +101,7 @@ public class CreateReview extends HttpServlet {
 	    
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		String path = "/WEB-INF/Home.html";
+		String path = "/WEB-INF/Thanks.html";
 		if(q!=null) {
 		ctx.setVariable("questionnaire", q);
 		ctx.setVariable("reviews",q.getReviews());
