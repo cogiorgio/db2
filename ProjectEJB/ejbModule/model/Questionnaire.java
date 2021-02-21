@@ -35,11 +35,11 @@ public class Questionnaire implements Serializable {
 	private byte[] img;
 
 
-	//bi-directional one-to-many association to Question 
+	//bi-directional many-to-one association to Question
 	@OneToMany(mappedBy="questionnaire", cascade= CascadeType.REMOVE)
 	private List<Question> questions;
 	
-	//bi-directional one-to-many association to Reviews
+	//bi-directional one-to-Many association to Reviews
 	@OneToMany(mappedBy="questionnaire", fetch=FetchType.EAGER, cascade= CascadeType.REMOVE)
 	private List<Review> reviews;
 
@@ -76,16 +76,12 @@ public class Questionnaire implements Serializable {
 		this.product = product;
 	}
 
-	public byte[] getImg() {
-		return img;
+	public String getImg() {
+		return Base64.getMimeEncoder().encodeToString(img);
 	}
 
 	public void setImg(byte[] img) {
 		this.img = img;
-	}
-
-	public String getImgData() {
-		return Base64.getMimeEncoder().encodeToString(img);
 	}
 	
 	public List<Question> getQuestions() {

@@ -1,10 +1,8 @@
-package controllers;
+package adminControllers;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.List;
-import java.util.Collections;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
@@ -15,33 +13,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.joda.time.DateTime;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
-import model.Questionnaire;
-import model.User;
+ import model.Questionnaire;
 import service.QuestionnaireService;
+import service.UserService;
 
 /**
- * Servlet implementation class GoToLeaderboard
+ * Servlet implementation class GoToDeletePage
  */
-@WebServlet("/GoToLeaderboard")
-public class GoToLeaderboard extends HttpServlet {
+@WebServlet("/GoToDeletePage")
+public class GoToDeletePage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
 	private TemplateEngine templateEngine;
+	@EJB(name = "service/UserService")
+	private UserService usrService; 
 	
 	@EJB(name = "service/QuestionnaireService")
-	private QuestionnaireService qService;
-	
-	private Questionnaire q;
-
-	
-	public GoToLeaderboard() {
-		super();
-	}
+	private QuestionnaireService qService; 
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public GoToDeletePage() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
@@ -51,50 +50,42 @@ public class GoToLeaderboard extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-
-
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// If the user is not logged in (not present in session) redirect to the login
+		String loginpath = getServletContext().getContextPath() + "/index.html";
 		HttpSession session = request.getSession();
-		if (session.isNew() || session.getAttribute("user") == null) {
-			String loginpath = getServletContext().getContextPath() + "/index.html";
+		if (session.isNew() || session.getAttribute("admin") == null) {
 			response.sendRedirect(loginpath);
 			return;
 		}
-
-		// Get and parse all parameters from request	
-
-		try {
-			q= qService.getQuestionnaireOfTheDay();
+		
+		List<Questionnaire> questionnaires = null;
+		
+		try {			
+			questionnaires = qService.findAllQuestionnaire();
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Questionnaire not found");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
 			return;
 		}
-		if(q==null) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "A questionnaire for that day does not exist");
-			return;
-		}
-		
-		List<User> userSubmitted= qService.findUserSubmitted(q);
-		
-		//System.out.println("Original List: " + userSubmitted);
-		Collections.sort(userSubmitted, Collections.reverseOrder());
-		//System.out.println(userSubmitted.size());
-		//System.out.println("Sorted List: " + userSubmitted);
-							
-		String path = "/WEB-INF/Leaderboard.html";
+		// Redirect to the Home page and add missions to the parameters
+		//così vedo la tabella con tutti i questionnaire, un altro modo più sensato potrebbe essere inserire il prodotto e/o la data/id
+		String path = "/WEB-INF/Delete.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("subUsers", userSubmitted);
+		ctx.setVariable("questionnaires", questionnaires);
 		
 		templateEngine.process(path, ctx, response.getWriter());
-
-
 	}
-	
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
 
 	public void destroy() {
 	}
+
 
 }

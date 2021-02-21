@@ -1,9 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
@@ -19,15 +16,19 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import exceptions.QuestionnaireException;
+import exceptions.ReviewException;
 import model.Questionnaire;
+import model.Review;
+import model.User;
 import service.QuestionnaireService;
 import service.ReviewService;
+import service.UserService;
 
 /**
- * Servlet implementation class GoToStatistical
+ * Servlet implementation class GoToHomePage
  */
-@WebServlet("/GoBack")
-public class GoBack extends HttpServlet {
+@WebServlet("/GoToHome")
+public class GoToHomePage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
 	
@@ -37,7 +38,7 @@ public class GoBack extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GoBack() {
+    public GoToHomePage() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -51,12 +52,14 @@ public class GoBack extends HttpServlet {
 		templateResolver.setSuffix(".html");
 	}
 
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Questionnaire q=null;
+		System.out.println("bau");
+        Questionnaire q=null;
 		try {
 			q = qstService.getQuestionnaireOfTheDay();
 		} catch (QuestionnaireException e) {
@@ -66,21 +69,26 @@ public class GoBack extends HttpServlet {
 		}
 		ReviewService revService=null;
 		revService = (ReviewService) request.getSession().getAttribute("revService");
-		Map<String,String> answers=revService.getAnswers();
-		
-		
-		
+		User u=(User)request.getSession().getAttribute("user");
+		Review r = null;
+		if(q!=null) {
+		try {
+			r=revService.findByUserQuestionnaire(u.getId(), q.getId());
+		} catch (ReviewException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		String path = "/WEB-INF/Questions.html";
-		
-		
-		ctx.setVariable("answers", answers);
-		
+		String path = "/WEB-INF/Home.html";
 		if(q!=null) {
 		ctx.setVariable("questionnaire", q);
-		templateEngine.process(path, ctx, response.getWriter());
+		if(r==null) ctx.setVariable("off", "1");
+		ctx.setVariable("reviews",q.getReviews());
 		}
+		
+
+		templateEngine.process(path, ctx, response.getWriter());
 	}
 
 	/**
@@ -88,35 +96,7 @@ public class GoBack extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Questionnaire q=null;
-		try {
-			q = qstService.getQuestionnaireOfTheDay();
-		} catch (QuestionnaireException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not find the questionnaire of the day");
-		}
-		ReviewService revService=null;
-		revService = (ReviewService) request.getSession().getAttribute("revService");
-		Map<String,String> answers=revService.getAnswers();
-		revService.setAge(Integer.parseInt(request.getParameter("age")));
-		revService.setSex(request.getParameter("sex"));
-		revService.setExpertise(request.getParameter("level"));
-		
-		
-		
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		String path = "/WEB-INF/Questions.html";
-		
-		
-		ctx.setVariable("answers", answers);
-		
-		if(q!=null) {
-		ctx.setVariable("questionnaire", q);
-		templateEngine.process(path, ctx, response.getWriter());
-		}
-		
+		doGet(request, response);
 	}
 
 }

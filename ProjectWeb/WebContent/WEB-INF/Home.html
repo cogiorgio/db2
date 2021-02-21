@@ -13,12 +13,9 @@
 	<div th:if="${questionnaire!=null }">
 		<form action="GoToQuestionnaire" method="get">
 			<span th:text="'Product ' + ${questionnaire.product}"> </span> 
-			<span th:text="'Image' + ${questionnaire.img}"></span> 	
-			<div>
-			<!-- img alt="product"
-				th:src="*{'data:image/png;base64,'+ questionnaire.img.getImgData()}"-->
-			</div>
-		
+			<img width="100px" alt="photo"
+				th:src="*{'data:image/png;base64,'+ questionnaire.getImg()}"> 
+	
 			<input type="hidden" name="productId" th:value="${questionnaire.id}">
 		<div th:if="${off!=null }">	
 			<input type="submit" value="go to questionnaire">
@@ -53,9 +50,8 @@
 		<a th:href="@{/GoToLeaderboard}">Go to Leaderboard Page</a>
 	</div>
 	
-	<div align="center">
-		<a th:href="@{/Logout}">Logout</a>
-	</div>	
+	
+	
 	
 </body>
 </html>

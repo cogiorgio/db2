@@ -3,7 +3,6 @@ package adminControllers;
 import java.io.IOException;
 
 
-
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,7 +56,7 @@ public class AddQuestion extends HttpServlet {
 		// Create mission in DB
 		Questionnaire questionnaire = (Questionnaire) session.getAttribute("questionnaire");
 		try {
-			qService.createQuestion(questionnaire, text);
+			qService.addQuestion(questionnaire, text);
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
 			return;

@@ -23,17 +23,16 @@ public class QuestionService {
         // TODO Auto-generated constructor stub
     }
     
-	public void createQuestion(Questionnaire questionnaire, String text) throws QuestionnaireException {
+	public void addQuestion(Questionnaire questionnaire, String text) throws QuestionnaireException {
 		Question question = new Question(text, questionnaire);
 		int size= questionnaire.getQuestions().size();
 		
 		if(size<=10) {
 			questionnaire.addQuestion(question);
 			em.persist(question);
-			//em.merge(questionnaire);//cascade? 
-		
+			em.merge(questionnaire);
 		}
-		else throw new QuestionnaireException("Max number of questions, cannot add anymore");
+		else throw new QuestionnaireException("Max number of questions");
 	}
 	
 

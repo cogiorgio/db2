@@ -33,8 +33,10 @@ public class AnswerService {
 		r.addAnswer(a);
 		em.persist(a);
 		em.merge(r);
-		em.flush();		
-	}
+		em.flush();
+		
+		
+			}
 	
 
 }

@@ -48,7 +48,7 @@ public class CreateQuestionnaire extends HttpServlet {
 
 	public void init() throws ServletException {
 	}
-	
+
 	private Date getYesterday() {
 		return new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000);
 	}
@@ -75,6 +75,7 @@ public class CreateQuestionnaire extends HttpServlet {
 				throw new Exception ("Missing or empty product");
 			}
 
+		
 			String pattern="yyyy-MM-dd";
 			SimpleDateFormat formatter= new SimpleDateFormat(pattern);
 			date= formatter.parse(request.getParameter("date"));

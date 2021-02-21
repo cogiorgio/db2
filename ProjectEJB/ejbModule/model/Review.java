@@ -11,6 +11,7 @@ import javax.persistence.*;
  *
  */
 @Entity
+
 @NamedQuery(name="Review.findByUserQ", query="SELECT r FROM Review r WHERE r.questionnaire.id = :questionnaire AND r.user.id = :user")
 public class Review implements Serializable {
 
@@ -28,6 +29,7 @@ public class Review implements Serializable {
 	private String level;
 		
 	private String status;
+
 	
 	//bi-directional many-to-one association to Questionnaire
 	@ManyToOne
@@ -39,8 +41,8 @@ public class Review implements Serializable {
 	@JoinColumn(name="user")
 	private User user;
 	
-	//bi-directional one-to-many association to Answer
-	@OneToMany(mappedBy="review", cascade= {CascadeType.REMOVE, CascadeType.PERSIST})
+	//bi-directional many-to-one association to Review
+	@OneToMany(mappedBy="review", cascade= CascadeType.REMOVE)
 	private List<Answer> answers;
 
 	public Review() {
@@ -88,12 +90,13 @@ public class Review implements Serializable {
 	}
 
 
-	public Review(int age, char sex, String level, String status, Date logData) {
+	public Review(int age, char sex, String level, String status) {
 		super();
 		this.age=age;
 		this.sex=sex;
 		this.level=level;
-		this.status = status;	
+		this.status = status;
+	
 	}
 
 

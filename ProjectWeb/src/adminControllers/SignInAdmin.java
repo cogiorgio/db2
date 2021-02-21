@@ -2,7 +2,6 @@ package adminControllers;
 
 import java.io.IOException;
 
-
 import javax.ejb.EJB;
 import javax.persistence.NonUniqueResultException;
 import javax.servlet.ServletContext;
@@ -20,7 +19,9 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import exceptions.CredentialsException;
 import model.Admin;
+import model.User;
 import service.AdminService;
+import service.UserService;
 
 /**
  * Servlet implementation class SignInAdmin

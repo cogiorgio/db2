@@ -79,7 +79,6 @@ public class QuestionnaireService {
 			return null;
 		}
 		else if(q.size()==1) {
-			em.refresh(q.get(0)); 
 			return q.get(0);
 		}
 		throw new QuestionnaireException("Not unique result");
@@ -87,12 +86,15 @@ public class QuestionnaireService {
 	
 	public List<User> findUserSubmitted(Questionnaire q){
 		
-		List<User> users = new ArrayList<User>();	
+		List<User> users = new ArrayList<User>();
+		
 		
 		for(Review r: q.getReviews()) {
 			if(r.getStatus().contains("submitted")) {
+				User u=em.find(User.class,r.getUser().getId());
+				em.refresh(u);
 				
-				users.add(r.getUser());
+				users.add(u);
 			}
 		}
 		return users;		
@@ -111,6 +113,21 @@ public class QuestionnaireService {
 	
 	public Questionnaire getQuestionnaireById(int id) {
 		return em.find(Questionnaire.class,id);
+	}
+	
+	public Questionnaire getQuestionnaireOfTheDay() throws QuestionnaireException {
+		
+		List<Questionnaire> l= em.createNamedQuery("Questionnaire.findDaily",Questionnaire.class).setParameter("mydate", DateTime.now().toDate()).getResultList();
+		
+		if(l.isEmpty()) {
+			return null;
+		}
+		
+		if(l.size()==1) {
+			em.refresh(l.get(0));
+			return l.get(0);
+		}
+		else throw new QuestionnaireException("Not unique result");
 	}
 	
 	
