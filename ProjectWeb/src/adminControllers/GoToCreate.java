@@ -22,7 +22,7 @@ import service.UserService;
  * Servlet implementation class GoToCreate
  */
 @WebServlet("/GoToCreate")
-public class GoToCreatePage extends HttpServlet {
+public class GoToCreate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private TemplateEngine templateEngine;      

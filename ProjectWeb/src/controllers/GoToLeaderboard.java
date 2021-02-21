@@ -66,7 +66,7 @@ public class GoToLeaderboard extends HttpServlet {
 		// Get and parse all parameters from request	
 
 		try {
-			q= qService.getQuestionnaireOfTheDay();
+			q= qService.findByDate(DateTime.now().toDate());
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Questionnaire not found");
 			return;
@@ -80,8 +80,11 @@ public class GoToLeaderboard extends HttpServlet {
 		
 		//System.out.println("Original List: " + userSubmitted);
 		Collections.sort(userSubmitted, Collections.reverseOrder());
+		System.out.println("Original List: " + userSubmitted);
+		Collections.sort(userSubmitted, Collections.reverseOrder());
+		System.out.println("Original List: " + userSubmitted);
 		//System.out.println(userSubmitted.size());
-		//System.out.println("Sorted List: " + userSubmitted);
+		System.out.println("Sorted List: " + userSubmitted);
 							
 		String path = "/WEB-INF/Leaderboard.html";
 		ServletContext servletContext = getServletContext();
