@@ -52,7 +52,7 @@ public class User implements Serializable , Comparable<User>{
 		this.mail=mail;
 		this.blocked=false;
 		this.points=0;
-		this.logData= Calendar.getInstance().getTime();
+		this.logData= new Date(System.currentTimeMillis());
 	}
 
 	public int getId() {

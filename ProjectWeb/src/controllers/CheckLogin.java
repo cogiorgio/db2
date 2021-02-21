@@ -74,7 +74,6 @@ public class CheckLogin extends HttpServlet {
 		try {
 			// query db to authenticate for user
 			user = usrService.checkCredentials(usrn, pwd);
-			user.setLogData(Calendar.getInstance().getTime());
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
 			return;
@@ -90,7 +89,8 @@ public class CheckLogin extends HttpServlet {
 			ctx.setVariable("errorMsg", "Incorrect username or password");
 			path = "/index.html";
 			templateEngine.process(path, ctx, response.getWriter());
-		} else {
+		} else 
+		{
 			ReviewService revService=null;
 			try {
 				/*
