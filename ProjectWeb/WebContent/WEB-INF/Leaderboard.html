@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Inspection</title>
+<title>Leaderboard</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../CSS/mystyle.css" th:href="@{/css/mystyle.css}" />
 </head>
@@ -12,27 +12,25 @@
 	<h1>Leaderboard Page</h1>
 
 	<section>	
-	
 		<div th:if="${#lists.isEmpty(subUsers)}">
 			<span> No users has submitted</span>
 		</div>
-		<div th:if="${#lists.isEmpty(subUsers)}">
-			<span> List of users who submitted</span>
-		</div>
+		<div th:if="${not #lists.isEmpty(subUsers)}">
 		<table>
-		<thead>
-			<tr>
-				<th>User</th>
-				<th>Points</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="u : ${subUsers}">
-				<td th:text="${u.username}"></td>
-				<td th:text="${u.points}"></td>
-			</tr>
-		</tbody>
+			<thead>
+				<tr>
+					<th>User</th>
+					<th>Points</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="u : ${subUsers}">
+					<td th:text="${u.username}"></td>
+					<td th:text="${u.points}"></td>
+				</tr>
+			</tbody>
 		</table>
+		</div>
 	</section>
 	
 	

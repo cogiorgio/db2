@@ -16,8 +16,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "questionnaire", schema = "projectdb")
-@NamedQueries({@NamedQuery(name="Questionnaire.findAll", query="SELECT q FROM Questionnaire q"), @NamedQuery(name="Questionnaire.findByDate", query="SELECT q FROM Questionnaire q WHERE q.date= :qdate")
-, @NamedQuery(name="Questionnaire.findDaily", query="SELECT q FROM Questionnaire q WHERE q.date = :mydate ")})
+@NamedQueries({@NamedQuery(name="Questionnaire.findAll", query="SELECT q FROM Questionnaire q"), @NamedQuery(name="Questionnaire.findByDate", query="SELECT q FROM Questionnaire q WHERE q.date= :qdate")})
 public class Questionnaire implements Serializable {
 	private static final long serialVersionUID = 1L;
 

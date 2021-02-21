@@ -19,7 +19,6 @@ import model.Review;
 public class AnswerService {
 	@PersistenceContext(unitName = "projectEJB")
 	private EntityManager em;
-	private int max=10;
 	
     public AnswerService() {
         // TODO Auto-generated constructor stub

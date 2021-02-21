@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>App Home</title>
+<title>User Home</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../CSS/mystyle.css" th:href="@{/css/mystyle.css}" />
 </head>
@@ -10,47 +10,44 @@
 
 
 	<h1>Welcome to the Home Page</h1>
+	
 	<div th:if="${questionnaire!=null }">
 		<form action="GoToQuestionnaire" method="get">
-			<span th:text="'Product ' + ${questionnaire.product}"> </span> 
+			<p th:text="'Product ' + ${questionnaire.product}"> </p> 
 			<img width="100px" alt="photo"
 				th:src="*{'data:image/png;base64,'+ questionnaire.getImg()}"> 
-	
 			<input type="hidden" name="productId" th:value="${questionnaire.id}">
-		<div th:if="${off!=null }">	
-			<input type="submit" value="go to questionnaire">
-	    </div>
+			<div th:if="${off!=null }">	
+				<input type="submit" value="go to questionnaire">
+	    	</div>
 		</form>
 	</div>
 	
-	
-	<h3>User reviews</h3>
-	
+	<div>	
 		<table>
 			<thead>
 				<tr><th>User</th><th>Age</th><th>Sex</th><th>Level</th></tr>
 			</thead>
 			<tbody>
 				<tr th:each="r : ${reviews}">
-					<td th:text="${r.user.id }"></td>
+					<td th:text="${r.user.username}"></td>
 					<td th:text="${r.age }"></td>
 					<td th:text="${r.sex }"></td>
 					<td th:text="${r.level }"></td>
 					<td th:each="a: ${r.answers }" >
 					  <span th:text="${a.question.text}" ></span> >>
 					  <span th:text="${a.text}" ></span>  
-					
-					</td>
-					
+					</td>		
 				</tr>
 			</tbody>
 		</table>
-		
+	</div>
+	<br><br>	
 	<div align="center">
 		<a th:href="@{/GoToLeaderboard}">Go to Leaderboard Page</a>
 	</div>
 	
-	
+	<br><br>	
 	<div align="center">
 		<a th:href="@{/Logout}">Logout</a>
 	</div>

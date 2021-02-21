@@ -2,14 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>App Home</title>
+<title>Section 1</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../CSS/mystyle.css" th:href="@{/css/mystyle.css}" />
 </head>
 <body>
 
 
-	<h1>Welcome to the Question Page!</h1>
+	<h1>Welcome to the Questionnaire of the day!</h1>
+	<br><br>
+	<h2>Section 1</h2>
     <div>
     	<form action="GoToStatistical" method="post">
 			<div th:each="question : ${questionnaire.getQuestions()}">

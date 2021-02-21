@@ -70,7 +70,8 @@ public class BlacklistService {
     	{
     		System.out.println("baddies found");
     		usr.setBlocked(found); //I'm getting the wrong user
-    		em.persist(usr);
+    		em.merge(usr);
+    		throw new BlacklistException("Bad word found!");
     	}
     	
     	System.out.println("done checking if there are baddies");

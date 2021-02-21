@@ -89,7 +89,6 @@ public class QuestionnaireService {
 		
 		List<User> users = new ArrayList<User>();
 		
-		
 		for(Review r: q.getReviews()) {
 			if(r.getStatus().contains("submitted")) {
 				User u=em.find(User.class,r.getUser().getId());
@@ -115,6 +114,7 @@ public class QuestionnaireService {
 	public Questionnaire getQuestionnaireById(int id) {
 		return em.find(Questionnaire.class,id);
 	}
+	
 	
 	
 }

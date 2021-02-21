@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 
+
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -78,20 +79,22 @@ public class GoToHomePage extends HttpServlet {
 		} catch (ReviewException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}}
+			}
+		}
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Home.html";
 		if(q!=null) {
 		ctx.setVariable("questionnaire", q);
-			if(r==null) ctx.setVariable("off", "1");
-			ctx.setVariable("reviews",q.getReviews());
+			if(r==null) { ctx.setVariable("off", "1");
 		}
-		
+					
+		ctx.setVariable("reviews",q.getReviews());
+
 
 		templateEngine.process(path, ctx, response.getWriter());
 	}
-
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

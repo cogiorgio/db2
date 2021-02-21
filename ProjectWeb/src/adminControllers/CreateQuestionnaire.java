@@ -63,19 +63,17 @@ public class CreateQuestionnaire extends HttpServlet {
 			return;
 		}
 
-		// Get and parse all parameters from request
+		// Get and parse all parameters from request and check the date
 		boolean illegalDate = false;
 		String product = null;		
 		Date date = null;
 
 		try {
-			product = StringEscapeUtils.escapeJava(request.getParameter("product"));
-			
+			product = StringEscapeUtils.escapeJava(request.getParameter("product"));	
 			if(product.isEmpty() | product==null) {
 				throw new Exception ("Missing or empty product");
 			}
-
-		
+			
 			String pattern="yyyy-MM-dd";
 			SimpleDateFormat formatter= new SimpleDateFormat(pattern);
 			date= formatter.parse(request.getParameter("date"));
@@ -89,6 +87,7 @@ public class CreateQuestionnaire extends HttpServlet {
 			return;
 		}
 		
+		//handle the image
 		Part imgFile = request.getPart("img");
 		InputStream thumbContent = imgFile.getInputStream();
 		byte[] imgByteArray = ImageUtils.readImage(thumbContent);
@@ -101,11 +100,12 @@ public class CreateQuestionnaire extends HttpServlet {
 			return;
 		}
 		
-		request.getSession().setAttribute("questionnaire", created);
+		//request.getSession().setAttribute("questionnaire", created);
 		String path = getServletContext().getContextPath() + "/GoToAddQuestions";
 		response.sendRedirect(path);
 
 	}
+	
 	public void destroy() {
 	}
 

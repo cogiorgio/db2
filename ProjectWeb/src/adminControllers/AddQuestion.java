@@ -11,8 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.joda.time.DateTime;
+
+import exceptions.QuestionnaireException;
 import model.Questionnaire;
 import service.QuestionService;
+import service.QuestionnaireService;
 
 /**
  * Servlet implementation class AddQuestion
@@ -22,7 +26,9 @@ public class AddQuestion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB(name = "service/QuestionService")
 	private QuestionService qService;
-
+	
+	@EJB(name = "service/QuestionnaireService")
+	private QuestionnaireService qstService;
 	
 	public AddQuestion() {
 		super();
@@ -47,14 +53,18 @@ public class AddQuestion extends HttpServlet {
 		String text = null;
 		try {
 			text = StringEscapeUtils.escapeJava(request.getParameter("text"));
-
 		} catch (Exception e) {
-			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect or missing param values");
 			return;
 		}
-		// Create mission in DB
-		Questionnaire questionnaire = (Questionnaire) session.getAttribute("questionnaire");
+		// Create and add question in DB
+		//Questionnaire questionnaire = (Questionnaire) session.getAttribute("questionnaire");
+		Questionnaire questionnaire=null;
+		try {
+			questionnaire = qstService.findByDate(DateTime.now().toDate());
+		} catch (QuestionnaireException e1) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e1.getMessage());
+		}
 		try {
 			qService.addQuestion(questionnaire, text);
 		} catch (Exception e) {
@@ -62,7 +72,7 @@ public class AddQuestion extends HttpServlet {
 			return;
 		}
 
-		// return the user to the right view
+		//return to the view to add other questions
 		String ctxpath = getServletContext().getContextPath();
 		String path = ctxpath + "/GoToAddQuestions";
 		response.sendRedirect(path);

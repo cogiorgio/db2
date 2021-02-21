@@ -78,8 +78,14 @@ public class SignIn extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
 			return;
 		}
-		
 		String temp = usrn;
+		try {
+			bService.checkBlacklist(temp, user);
+		} catch (BlacklistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		try {
 			bService.checkBlacklist(temp, user);
 		} catch (BlacklistException e) {

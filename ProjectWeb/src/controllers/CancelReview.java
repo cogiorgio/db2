@@ -71,25 +71,19 @@ public class CancelReview extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		Questionnaire q=null;
-		System.out.println("debug 1");
 
 		try {
 			q = qstService.findByDate(DateTime.now().toDate());
 		} catch (QuestionnaireException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not find the questionnaire of the day");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 		}
-		System.out.println("debug 2");
 
 		ReviewService revService=null;
 		revService = (ReviewService) request.getSession().getAttribute("revService");
 		
 		Review r=revService.cancelReview(q,(User) request.getSession().getAttribute("user"));
 		
-		System.out.println("tua mamma quella troia");
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Home.html";
