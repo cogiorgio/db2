@@ -25,7 +25,7 @@
 
 	<h3>User reviews</h3>
 	
-		<table>
+		<table th:if="${reviews!=null }">
 			<thead>
 				<tr><th>User</th><th>Age</th><th>Sex</th><th>Level</th></tr>
 			</thead>
@@ -44,16 +44,14 @@
 		<a th:href="@{/GoToLeaderboard}">Go to Leaderboard Page</a>
 	</div>
 	
-	<div th:fragment="list(review)">
+	<!-- GESTIRE EACH DI EACH <div th:fragment="list(review)">
 
 		<ul th:unless="${#lists.isEmpty(reviews)}">
 
 			<li th:each="a : ${review.answers}"><span
 				th:text="${a.getQuestion().id + ' Answer: ' +    a.getText()}"></span>
-
 		</ul>
-
-	</div>
+	</div> -->
 	
 	
 </body>

@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -59,23 +60,26 @@ public class GoToHomePage extends HttpServlet {
 		// TODO Auto-generated method stub
 		//System.out.println("bau");
         Questionnaire q = null;
+        List<Review> reviews= new ArrayList<Review>();
 		try {
 			//System.out.println("bau bau");
 			q = qstService.getQuestionnaireOfTheDay();
-			/*if (q == null)
-			System.out.println("bau bau q is null");*/
+			if (q == null)
+			System.out.println("bau bau q is null");
 		} catch (QuestionnaireException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not find the questionnaire of the day");
 		}
 		
-		List<Review> reviews= qstService.getSubmittedReviews(q);
+		if(q!=null) {
+			reviews= qstService.getSubmittedReviews(q);
+		}
 		
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Home.html";
-		if(q!=null) {
+		if(q!=null & !(reviews.isEmpty()) & reviews!=null) {
 		ctx.setVariable("questionnaire", q);
 		ctx.setVariable("reviews",q.getReviews());
 		}

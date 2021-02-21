@@ -97,7 +97,7 @@ public class SignIn extends HttpServlet {
 			templateEngine.process(path, ctx, response.getWriter());
 		} else {
 			request.getSession().setAttribute("user", user);
-			path = getServletContext().getContextPath() + "/GoToHomePage";
+			path = getServletContext().getContextPath() + "/GoToHome";
 			response.sendRedirect(path);
 		}
 
