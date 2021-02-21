@@ -92,11 +92,3 @@ BEGIN
 END//
 delimiter ;
 
-
-/*
-CREATE TRIGGER DeleteAsw
-BEFORE DELETE ON review
-FOR EACH ROW
-DELETE FROM answer AS a
-WHERE a.review = OLD.id
-*/

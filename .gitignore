@@ -6,3 +6,6 @@ myappWEB/.classpath
 myappEJB/.classpath
 ProjectEJB/.classpath
 ProjectWeb/.classpath
+ProjectEJB/.classpath
+ProjectWeb/.classpath
+ProjectWeb/.settings/org.eclipse.wst.common.project.facet.core.xml
