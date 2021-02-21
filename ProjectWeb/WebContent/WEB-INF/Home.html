@@ -23,9 +23,10 @@
 	</div>
 	
 
-	<h3>User reviews</h3>
+	<h3 th:if="${reviews!=null }">User reviews</h3>
+
 	
-		<table th:if="${reviews!=null }">
+		<!-- <table th:if="${reviews!=null }">
 			<thead>
 				<tr><th>User</th><th>Age</th><th>Sex</th><th>Level</th></tr>
 			</thead>
@@ -38,7 +39,7 @@
 					<td th:text="${r.answers.get(0) }"></td>
 				</tr>
 			</tbody>
-		</table>
+		</table> -->
 		
 	<div align="center">
 		<a th:href="@{/GoToLeaderboard}">Go to Leaderboard Page</a>
@@ -51,7 +52,19 @@
 			<li th:each="a : ${review.answers}"><span
 				th:text="${a.getQuestion().id + ' Answer: ' +    a.getText()}"></span>
 		</ul>
-	</div> -->
+	</div> 
+	
+	
+	FORSE QUESTO POTREBBE FUNZIONARE MA VA TESTATO
+	<table th:if="${reviews!=null}">
+    <span th:each="r : ${reviews}">
+        <td>
+            <tr th:each="answer: ${r.answers}">
+                <p th:text="${answer.question}"></p>
+            </tr>
+        <td>
+    </span>
+	</table>-->
 	
 	
 </body>
