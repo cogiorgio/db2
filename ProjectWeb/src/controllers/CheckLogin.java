@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 import javax.ejb.EJB;
 import javax.naming.InitialContext;
@@ -73,6 +74,7 @@ public class CheckLogin extends HttpServlet {
 		try {
 			// query db to authenticate for user
 			user = usrService.checkCredentials(usrn, pwd);
+			user.setLogData(Calendar.getInstance().getTime());
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
 			return;

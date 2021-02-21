@@ -114,7 +114,6 @@ public class User implements Serializable , Comparable<User>{
 	
 	public Review addReview(Review review) {
 		getReviews().add(review);
-		this.setLogData(Calendar.getInstance().getTime());
 		review.setUser(this);
 		return review;
 	}
