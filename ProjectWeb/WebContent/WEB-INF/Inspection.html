@@ -13,10 +13,10 @@
 
 	<section>	
 	
-		<div th:if="${#lists.isEmpty(subUsers)}">
+		<div  th:if="${#lists.isEmpty(subUsers)}">
 			<span> No users has submitted</span>
 		</div>
-		<div th:if="${#lists.isEmpty(subUsers)}">
+		<div th:if="${not #lists.isEmpty(subUsers)}">
 			<span> List of users who submitted</span>		
 			<table>
 				<thead>
@@ -28,7 +28,6 @@
 				<tbody>
 					<tr th:each="u : ${subUsers}">
 						<td th:text="${u.username}"></td>
-						<td><a th:href="@{/GoToUserAnswers(userid=${u.id})}">Answer</a></td>
 					</tr>
 				</tbody>
 			</table>

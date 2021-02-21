@@ -98,14 +98,14 @@ public class GoToInspection extends HttpServlet {
 		List<User> userSubmitted= qService.findUserSubmitted(q);
 	
 		List<User> userCancelled= qService.findUserCancelled(q);
-		request.getSession().setAttribute("qid", q.getId());		
 							
 		String path = "/WEB-INF/Inspection.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("subUsers", userSubmitted);
 		ctx.setVariable("cancUsers", userCancelled);
-		ctx.setVariable("qId", q.getId());
+		ctx.setVariable("reviews", q.getReviews());
+
 		
 		templateEngine.process(path, ctx, response.getWriter());
 
