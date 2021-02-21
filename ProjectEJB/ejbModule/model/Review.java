@@ -29,9 +29,6 @@ public class Review implements Serializable {
 		
 	private String status;
 	
-	@Temporal(TemporalType.DATE)
-	private Date logData;
-	
 	//bi-directional many-to-one association to Questionnaire
 	@ManyToOne
 	@JoinColumn(name="questionnaire")
@@ -96,9 +93,7 @@ public class Review implements Serializable {
 		this.age=age;
 		this.sex=sex;
 		this.level=level;
-		this.status = status;
-		this.logData = logData;
-	
+		this.status = status;	
 	}
 
 
@@ -111,16 +106,6 @@ public class Review implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-
-	public Date getLogData() {
-		return logData;
-	}
-
-
-	public void setLogData(Date logData) {
-		this.logData = logData;
 	}
 
 

@@ -4,12 +4,17 @@ import java.io.IOException;
 import java.util.Date;
 
 import javax.ejb.EJB;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import service.QuestionnaireService;
 
@@ -19,7 +24,7 @@ import service.QuestionnaireService;
 @WebServlet("/DeleteQuestionnaire")
 public class DeleteQuestionnaire extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB(name = "service/QuestionnaireService")
 	private QuestionnaireService qService;
 	
@@ -29,6 +34,7 @@ public class DeleteQuestionnaire extends HttpServlet {
 
 	public void init() throws ServletException {
 	}
+	
 	
 	private Date getToday() {
 		Date today=new Date(System.currentTimeMillis());
@@ -66,7 +72,7 @@ public class DeleteQuestionnaire extends HttpServlet {
 
 		// Return view
 		String ctxpath = getServletContext().getContextPath();
-		String path = ctxpath + "/AdminHome.html";
+		String path = ctxpath + "/GoToAdminHome";
 		response.sendRedirect(path);
 
 	}

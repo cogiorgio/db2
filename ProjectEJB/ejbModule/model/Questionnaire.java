@@ -35,7 +35,7 @@ public class Questionnaire implements Serializable {
 	private byte[] img;
 
 
-	//bi-directional one-to-many association to Question (only Remove perchè se no merge mi duplica tutto)
+	//bi-directional one-to-many association to Question 
 	@OneToMany(mappedBy="questionnaire", cascade= CascadeType.REMOVE)
 	private List<Question> questions;
 	

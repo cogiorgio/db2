@@ -1,9 +1,13 @@
 package model;
 
 import java.io.Serializable;
-
+import java.util.Collections;
+import java.util.Date;
 
 import javax.persistence.*;
+
+
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -14,7 +18,7 @@ import java.util.List;
 @Entity
 //@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 @NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2")
-public class User implements Serializable {
+public class User implements Serializable , Comparable<User>{
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -31,6 +35,10 @@ public class User implements Serializable {
 	
 	private int points;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date logData;
+	
+
 	//bi-directional one-to-many association to Reviews
 	@OneToMany(mappedBy="user", cascade= CascadeType.REMOVE)
 	private List<Review> reviews;
@@ -44,6 +52,7 @@ public class User implements Serializable {
 		this.mail=mail;
 		this.blocked=false;
 		this.points=0;
+		this.logData=Calendar.getInstance().getTime();
 	}
 
 	public int getId() {
@@ -94,6 +103,14 @@ public class User implements Serializable {
 		this.points = points;
 	}
 	
+	public Date getLogData() {
+		return logData;
+	}
+
+	public void setLogData(Date logData) {
+		this.logData = logData;
+	}
+	
 	public List<Review> getReviews() {
 		return reviews;
 	}
@@ -106,6 +123,7 @@ public class User implements Serializable {
 	public Review addReview(Review review) {
 		getReviews().add(review);
 		review.setUser(this);
+		this.setLogData(Calendar.getInstance().getTime());
 		return review;
 	}
 
@@ -114,5 +132,12 @@ public class User implements Serializable {
 		review.setUser(null);
 		return review;
 	}
+	
+	@Override
+	public int compareTo(User u)
+	{
+		return this.points - u.getPoints();
+	}
+
 
 }

@@ -48,10 +48,9 @@ public class CreateQuestionnaire extends HttpServlet {
 
 	public void init() throws ServletException {
 	}
-
-	private Date getToday() {
-		Date today=new Date(System.currentTimeMillis());
-		return today;
+	
+	private Date getYesterday() {
+		return new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -76,13 +75,10 @@ public class CreateQuestionnaire extends HttpServlet {
 				throw new Exception ("Missing or empty product");
 			}
 
-			/*String datetime= request.getParameter("date");
-			DateTime time = DateTime.parse(datetime);
-			date= time.toDate();*/
 			String pattern="yyyy-MM-dd";
 			SimpleDateFormat formatter= new SimpleDateFormat(pattern);
 			date= formatter.parse(request.getParameter("date"));
-			//illegalDate =  date.before(getToday());
+			illegalDate =  date.before(getYesterday());
 
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad format of the reqeust");

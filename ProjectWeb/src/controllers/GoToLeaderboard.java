@@ -79,7 +79,7 @@ public class GoToLeaderboard extends HttpServlet {
 		List<User> userSubmitted= qService.findUserSubmitted(q);
 		
 		//System.out.println("Original List: " + userSubmitted);
-		Collections.sort(userSubmitted, Collections.reverseOrder());
+		//Collections.sort(userSubmitted, Collections.reverseOrder());
 		//System.out.println(userSubmitted.size());
 		//System.out.println("Sorted List: " + userSubmitted);
 							
