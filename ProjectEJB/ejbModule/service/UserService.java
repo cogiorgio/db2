@@ -42,7 +42,7 @@ public class UserService {
     			uList.get(0).setLogData(new Date(System.currentTimeMillis()));
     			return uList.get(0);
     			}
-    		throw new NonUniqueResultException("More than one user registered with same credentials");
+    		throw new CredentialsException("More than one user registered with same credentials");
 
     	}
 

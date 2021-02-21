@@ -75,7 +75,7 @@ public class CheckLogin extends HttpServlet {
 			// query db to authenticate for user
 			user = usrService.checkCredentials(usrn, pwd);
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 			return;
 		}
 
@@ -104,8 +104,7 @@ public class CheckLogin extends HttpServlet {
 				// Retrieve the EJB using JNDI lookup
 				revService = (ReviewService) ic.lookup("java:/openejb/local/ReviewServiceLocalBean");
 			} catch (Exception e) {
-				e.printStackTrace();
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not get the questionnaire");
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 
 			}
 			request.getSession().setAttribute("revService", revService);

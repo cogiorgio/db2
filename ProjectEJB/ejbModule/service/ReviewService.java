@@ -85,16 +85,14 @@ public class ReviewService {
     }
     
     public Review cancelReview(Questionnaire q,User u) {
-	    
-    	
+	    	
 		Review r= new Review (0,'\0',"", "cancelled");
 		q.addReview(r);
 		u.addReview(r);
 		em.persist(r);
 		em.flush();
 		return r;
-
-}
+    }
     
     public void setQuestionnaire(int r,int q) {
     	

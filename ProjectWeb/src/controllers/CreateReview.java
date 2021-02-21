@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.joda.time.DateTime;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -73,7 +74,7 @@ public class CreateReview extends HttpServlet {
 		// TODO Auto-generated method stub
 		Questionnaire q=null;
 		try {
-			q = qstService.getQuestionnaireOfTheDay();
+			q = qstService.findByDate(DateTime.now().toDate());
 		} catch (QuestionnaireException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -91,7 +92,7 @@ public class CreateReview extends HttpServlet {
 	        }
 		
 		try {
-			q = qstService.getQuestionnaireOfTheDay();
+			q = qstService.findByDate(DateTime.now().toDate());
 		} catch (QuestionnaireException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -107,8 +108,8 @@ public class CreateReview extends HttpServlet {
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Thanks.html";
 		if(q!=null) {
-		ctx.setVariable("questionnaire", q);
-		ctx.setVariable("reviews",q.getReviews());
+			ctx.setVariable("questionnaire", q);
+			ctx.setVariable("reviews",q.getReviews());
 		}
 
 		templateEngine.process(path, ctx, response.getWriter());

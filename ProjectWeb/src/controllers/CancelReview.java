@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.joda.time.DateTime;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -72,32 +73,29 @@ public class CancelReview extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Questionnaire q=null;
+		System.out.println("debug 1");
+
 		try {
-			q = qstService.getQuestionnaireOfTheDay();
+			q = qstService.findByDate(DateTime.now().toDate());
 		} catch (QuestionnaireException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not find the questionnaire of the day");
 		}
+		System.out.println("debug 2");
+
 		ReviewService revService=null;
 		revService = (ReviewService) request.getSession().getAttribute("revService");
 		
 		Review r=revService.cancelReview(q,(User) request.getSession().getAttribute("user"));
 		
-		
-		
-	    
-		
-		
-		
-		
-		
+		System.out.println("tua mamma quella troia");
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Home.html";
 		if(q!=null) {
-		ctx.setVariable("questionnaire", q);
-		ctx.setVariable("reviews",q.getReviews());
+			ctx.setVariable("questionnaire", q);
+			ctx.setVariable("reviews",q.getReviews());
 		}
 
 		templateEngine.process(path, ctx, response.getWriter());

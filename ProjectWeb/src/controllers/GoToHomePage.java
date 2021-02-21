@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.joda.time.DateTime;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -61,7 +62,7 @@ public class GoToHomePage extends HttpServlet {
 		System.out.println("bau");
         Questionnaire q=null;
 		try {
-			q = qstService.getQuestionnaireOfTheDay();
+			q = qstService.findByDate(DateTime.now().toDate());
 		} catch (QuestionnaireException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,8 +84,8 @@ public class GoToHomePage extends HttpServlet {
 		String path = "/WEB-INF/Home.html";
 		if(q!=null) {
 		ctx.setVariable("questionnaire", q);
-		if(r==null) ctx.setVariable("off", "1");
-		ctx.setVariable("reviews",q.getReviews());
+			if(r==null) ctx.setVariable("off", "1");
+			ctx.setVariable("reviews",q.getReviews());
 		}
 		
 
