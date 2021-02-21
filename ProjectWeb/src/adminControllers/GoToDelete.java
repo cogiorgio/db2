@@ -24,8 +24,8 @@ import service.UserService;
 /**
  * Servlet implementation class GoToDeletePage
  */
-@WebServlet("/GoToDeletePage")
-public class GoToDeletePage extends HttpServlet {
+@WebServlet("/GoToDelete")
+public class GoToDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private TemplateEngine templateEngine;
@@ -37,7 +37,7 @@ public class GoToDeletePage extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GoToDeletePage() {
+    public GoToDelete() {
         super();
         // TODO Auto-generated constructor stub
     }

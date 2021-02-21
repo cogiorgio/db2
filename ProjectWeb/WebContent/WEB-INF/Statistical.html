@@ -12,10 +12,10 @@
 	<h1>Welcome to the Statistics Page!</h1>
 	
     <div>
-    	<form id="form1" action="create" method="post">
+    	<form id="form1" action="CreateReview" method="post">
     		<table>
     			<tr>
-     				<th>Age</th><th><input name="age" type="number"  th:value="${age!=null?age:''}"></th>
+     				<th>Age</th><th><input name="age" type="number"  th:value="${age!=null?age:'0'}" min=0 max=99></th>
     			</tr>
     			<tr>
      				<th>Sex</th>

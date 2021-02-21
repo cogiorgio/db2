@@ -6,34 +6,36 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import exceptions.QuestionnaireException;
+import model.Answer;
 import model.Question;
 import model.Questionnaire;
+import model.Review;
 
 /**
  * Session Bean implementation class QuestionService
  */
 @Stateless
 @LocalBean
-public class QuestionService {
+public class AnswerService {
 	@PersistenceContext(unitName = "projectEJB")
 	private EntityManager em;
 	private int max=10;
 	
-    public QuestionService() {
+    public AnswerService() {
         // TODO Auto-generated constructor stub
     }
     
-	public void addQuestion(Questionnaire questionnaire, String text) throws QuestionnaireException {
-		Question question = new Question(text, questionnaire);
-		int size= questionnaire.getQuestions().size();
+	public void createAnswer(String q, Review r,String text) {
+		Question quest=em.find(Question.class,Integer.parseInt(q));
+		Answer a=new Answer();
+		a.setText(text);
+		quest.addAnswer(a);
+		r.addAnswer(a);
+		em.persist(a);
+		em.flush();
 		
-		if(size<=10) {
-			questionnaire.addQuestion(question);
-			em.persist(question);
-			em.merge(questionnaire);
-		}
-		else throw new QuestionnaireException("Max number of questions");
-	}
+		
+			}
 	
 
 }

@@ -38,7 +38,7 @@ public class Questionnaire implements Serializable {
 	private List<Question> questions;
 	
 	//bi-directional one-to-Many association to Reviews
-	@OneToMany(mappedBy="questionnaire",  cascade= CascadeType.REMOVE)
+	@OneToMany(mappedBy="questionnaire", fetch=FetchType.EAGER, cascade= CascadeType.REMOVE)
 	private List<Review> reviews;
 
 	public Questionnaire() {

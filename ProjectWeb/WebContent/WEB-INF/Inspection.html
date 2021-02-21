@@ -58,6 +58,32 @@
 		</div>		
 	</section>
 	
+	<div th:if="${#lists.isEmpty(reviews)}">
+			<span> There are no reviews for this questionnaire</span>
+	</div>
+	
+	<div th:if="${not #lists.isEmpty(reviews)}">	
+		<table >
+			<thead>
+				<tr><th>User</th><th>Age</th><th>Sex</th><th>Level</th></tr>
+			</thead>
+			<tbody>
+				<tr th:each="r : ${reviews}">
+					<td th:text="${r.user.id }"></td>
+					<td th:text="${r.age }"></td>
+					<td th:text="${r.sex }"></td>
+					<td th:text="${r.level }"></td>
+					<td th:each="a: ${r.answers }" >
+					  <span th:text="${a.question.text}" ></span> >>
+					  <span th:text="${a.text}" ></span>  
+					
+					</td>
+					
+				</tr>
+			</tbody>
+		</table>
+	</div>	
+		
 
 	
 

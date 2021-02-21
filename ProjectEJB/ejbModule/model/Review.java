@@ -91,9 +91,22 @@ public class Review implements Serializable {
 	}
 
 
+	public Review(int age, char sex, String level, String status, Date logData) {
+		super();
+		this.age=age;
+		this.sex=sex;
+		this.level=level;
+		this.status = status;
+		this.logData = logData;
+	
+	}
+
+
 	public String getStatus() {
 		return status;
 	}
+	
+	
 
 
 	public void setStatus(String status) {

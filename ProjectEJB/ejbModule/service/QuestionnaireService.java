@@ -24,8 +24,6 @@ import model.Questionnaire;
 import model.Review;
 import model.User;
 
-
-import java.time.*;
 /**
  * Session Bean implementation class QuestionnaireService
  */
@@ -90,8 +88,10 @@ public class QuestionnaireService {
 		
 		List<User> users = new ArrayList<User>();
 		
+		
 		for(Review r: q.getReviews()) {
 			if(r.getStatus().contains("submitted")) {
+				
 				users.add(r.getUser());
 			}
 		}
@@ -114,31 +114,18 @@ public class QuestionnaireService {
 	}
 	
 	public Questionnaire getQuestionnaireOfTheDay() throws QuestionnaireException {
-		//System.out.println("DateTime.now(): " + DateTime.now());
-		//System.out.println("sysdate: " + DateTime.now().toDate());
+		
 		List<Questionnaire> l= em.createNamedQuery("Questionnaire.findDaily",Questionnaire.class).setParameter("mydate", DateTime.now().toDate()).getResultList();
-
 		
 		if(l.isEmpty()) {
 			return null;
 		}
 		
 		if(l.size()==1) {
+			em.refresh(l.get(0));
 			return l.get(0);
 		}
 		else throw new QuestionnaireException("Not unique result");
-	}
-	
-	public List<Review> getSubmittedReviews(Questionnaire q){
-		List<Review> reviews= new ArrayList<Review>();
-		
-		for(Review r: q.getReviews()) {
-			if(r.getStatus().contains("submitted")) {
-				reviews.add(r);
-			}
-		}
-		return reviews;
-		
 	}
 	
 	

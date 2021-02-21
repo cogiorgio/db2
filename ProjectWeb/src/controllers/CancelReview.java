@@ -3,7 +3,9 @@ package controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,20 +18,34 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import exceptions.QuestionnaireException;
+import model.Question;
+import model.Questionnaire;
+import model.Review;
+import model.User;
+import service.AnswerService;
+import service.QuestionnaireService;
 import service.ReviewService;
 
 /**
  * Servlet implementation class GoToStatistical
  */
-@WebServlet("/GoToStatistical")
-public class GoToStatistical extends HttpServlet {
+@WebServlet("/CancelReview")
+public class CancelReview extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
+	
+	@EJB(name = "model/QuestionnaireService")
+	private QuestionnaireService qstService;
        
+	@EJB(name = "model/AnswerService")
+	private AnswerService answerService;
+	
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GoToStatistical() {
+    public CancelReview() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,8 +63,7 @@ public class GoToStatistical extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 	}
 
 	/**
@@ -56,21 +71,37 @@ public class GoToStatistical extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		Questionnaire q=null;
+		try {
+			q = qstService.getQuestionnaireOfTheDay();
+		} catch (QuestionnaireException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not find the questionnaire of the day");
+		}
 		ReviewService revService=null;
 		revService = (ReviewService) request.getSession().getAttribute("revService");
-		List<String> parameterNames = new ArrayList<String>(request.getParameterMap().keySet());
-		for(int i=0;i<parameterNames.size();i++) {
-			String key=parameterNames.get(i);
-			revService.addAnswer(key, request.getParameter(key));
-		}
+		
+		Review r=revService.cancelReview(q,(User) request.getSession().getAttribute("user"));
+		
+		
+		
+	    
+		
+		
+		
+		
+		
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		String path = "/WEB-INF/Statistical.html";
-		ctx.setVariable("sex", revService.getSex());
-		System.out.println(revService.getSex());
-		ctx.setVariable("age", revService.getAge());
-		ctx.setVariable("level", revService.getExpertise());
+		String path = "/WEB-INF/Home.html";
+		if(q!=null) {
+		ctx.setVariable("questionnaire", q);
+		ctx.setVariable("reviews",q.getReviews());
+		}
+
 		templateEngine.process(path, ctx, response.getWriter());
+		
 		
 	}
 

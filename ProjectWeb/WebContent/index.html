@@ -9,34 +9,46 @@
 	<h2>Relationship navigation version </h2>
 
 	<form action="CheckLogin" method="POST">
-		Username: <input type="text" name="username" required> <br>
-		Password: <input type="password" name="pwd" required><br>
-		<input type="submit" value="login">
-		<p th:text=" ${errorMsg}"></p>
+	<table>
+	<tr><th>
+		Username:</th> <th><input type="text" name="username" required> </th>
+		<tr><th>Password:</th><th> <input type="password" name="pwd" required></th>
+		<tr><th><input type="submit" value="login"></th><tr>
+		<tr><th><p th:text=" ${errorMsg}"></p></th></tr>
+		</table>
 	</form>
 	
 	<form action="SignIn" method="POST">
-		Username: <input type="text" name="username" required> <br>
-		Password: <input type="password" name="pwd" required><br>
-		Mail: <input type = "text" name="mail" required> <br>
-		<input type="submit" value="signin">
-		<p th:text=" ${errorMsg}"></p>
+	<table>
+	<tr><th>
+		Username:</th> <th><input type="text" name="username" required> </th>
+		<tr><th>Password:</th><th> <input type="password" name="pwd" required></th>
+		<tr><th>Mail:</th><th><input type = "text" name="mail" required> </th>
+		<tr><th><input type="submit" value="signin"></th><tr>
+		<tr><th><p th:text=" ${errorMsg}"></p></th></tr>
+		</table>
 	</form>
 	
 	
 	<form action="CheckLoginAdmin" method="POST">
-		Username: <input type="text" name="username" required> <br>
-		Password: <input type="password" name="pwd" required><br>
-		<input type="submit" value="loginAdmin">
-		<p th:text=" ${errorMsg}"></p>
+	<table>
+	<tr><th>
+		Username:</th> <th><input type="text" name="username" required> </th>
+		<tr><th>Password:</th><th> <input type="password" name="pwd" required></th>
+		<tr><th><input type="submit" value="loginAdmin"></th><tr>
+		<tr><th><p th:text=" ${errorMsg}"></p></th></tr>
+		</table>
 	</form>
 	
 	<form action="SignInAdmin" method="POST">
-		Username: <input type="text" name="username" required> <br>
-		Password: <input type="password" name="pwd" required><br>
-		Mail: <input type = "text" name="mail" required> <br>
-		<input type="submit" value="signinAdmin">
-		<p th:text=" ${errorMsg}"></p>
+	<table>
+	<tr><th>
+		Username:</th> <th><input type="text" name="username" required> </th>
+		<tr><th>Password:</th><th> <input type="password" name="pwd" required></th>
+		<tr><th>Mail:</th><th><input type = "text" name="mail" required> </th>
+		<tr><th><input type="submit" value="signinAdmin"></th><tr>
+		<tr><th><p th:text=" ${errorMsg}"></p></th></tr>
+		</table>
 	</form>
 </body>
 </html>

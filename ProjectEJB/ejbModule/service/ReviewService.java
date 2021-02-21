@@ -1,5 +1,6 @@
 package service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +11,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
+import org.joda.time.DateTime;
+
+import exceptions.QuestionnaireException;
 import exceptions.ReviewException;
+import model.Questionnaire;
 import model.Review;
+import model.User;
 
 /**
  * Session Bean implementation class ReviewService
@@ -63,6 +69,40 @@ public class ReviewService {
     	return this.level;
     	
     }
+    
+    public Review createReview(Questionnaire q,User u) {
+    	    
+    		
+			Review r= new Review (Age==0?0:Age,sex.charAt(0)=='n'?'\0':sex.charAt(0), level.strip().equals("none")?"\0":level, "submitted",DateTime.now().toDate());
+			q.addReview(r);
+			u.addReview(r);
+			em.persist(r);
+			
+			em.flush();
+			return r;
+
+    }
+    
+    public Review cancelReview(Questionnaire q,User u) {
+	    
+    	
+		Review r= new Review (0,'\0',"", "cancelled",DateTime.now().toDate());
+		q.addReview(r);
+		u.addReview(r);
+		em.persist(r);
+		em.flush();
+		return r;
+
+}
+    
+    public void setQuestionnaire(int r,int q) {
+    	
+		Review rev=em.find( Review.class,q);
+		Questionnaire qst=em.find( Questionnaire.class,r);
+		rev.setQuestionnaire(qst);
+		em.flush();
+
+}
     
     //questo er stateless dovremo un attimo ripensare la cosa no?
     public Review findByUserQuestionnaire(Integer userId, Integer qId) throws ReviewException {

@@ -5,7 +5,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Collections;
 
 
 /**
@@ -15,7 +14,7 @@ import java.util.Collections;
 @Entity
 //@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 @NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2")
-public class User implements Serializable, Comparable<User> {
+public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -116,9 +115,4 @@ public class User implements Serializable, Comparable<User> {
 		return review;
 	}
 
-	@Override
-	public int compareTo(User u)
-	{
-		return this.points - u.getPoints();
-	}
 }

@@ -21,15 +21,15 @@ import service.UserService;
 /**
  * Servlet implementation class GoToCreate
  */
-@WebServlet("/GoToCreatePage")
-public class GoToCreatePage extends HttpServlet {
+@WebServlet("/GoToCreate")
+public class GoToCreate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private TemplateEngine templateEngine;      
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GoToCreatePage() {
+    public GoToCreate() {
         super();
         // TODO Auto-generated constructor stub
     }

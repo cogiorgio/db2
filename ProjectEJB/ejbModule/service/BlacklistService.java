@@ -40,20 +40,27 @@ public class BlacklistService {
     		//bList = em.createQuery("SELECT b FROM Blacklist b").getResultList();
     		bList = em.createNamedQuery("Blacklist.findAll", Blacklist.class).getResultList(); 
     		
+    		//NamedQueryNotFound wtf!?
+    		//TypedQuery<Blacklist> query = em.createNamedQuery("Blacklist.findALL", Blacklist.class);
+    		//bList = query.getResultList();
     	}
     	catch (PersistenceException e)
     	{
     		throw new BlacklistException("Cannot load Blacklist");
     	}
     	
+    	//String [] baddies = new String[bList.size()]; 
     	
+    	//baddies = ((Blacklist) bList).getBadwords().toArray();
+    	    	
+    	//String baddies = "$";
     	for (Blacklist badword : bList)
     	{
     		String baddies = badword.getBadwords();
     		if(inputText.contains(baddies))
     		{
     			found = true;
-    			//System.out.println("baddies here");
+    			System.out.println("baddies here");
     			break;
     		}
     	}
@@ -61,9 +68,9 @@ public class BlacklistService {
     	
     	if(found == true)
     	{
-    		System.out.println("baddies found, I'm blocking the user");
+    		System.out.println("baddies found");
     		usr.setBlocked(found); //I'm getting the wrong user
-    		em.merge(usr);
+    		em.persist(usr);
     	}
     	
     	System.out.println("done checking if there are baddies");

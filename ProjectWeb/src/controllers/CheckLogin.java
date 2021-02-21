@@ -106,9 +106,8 @@ public class CheckLogin extends HttpServlet {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not get the questionnaire");
 
 			}
-			
-			request.getSession().setAttribute("user", user);
 			request.getSession().setAttribute("revService", revService);
+			request.getSession().setAttribute("user", user);
 			path = getServletContext().getContextPath() + "/GoToHome";
 			response.sendRedirect(path); 
 			
