@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 
 import javax.persistence.*;
+
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -33,11 +35,11 @@ public class Questionnaire implements Serializable {
 	private byte[] img;
 
 
-	//bi-directional many-to-one association to Question
+	//bi-directional one-to-many association to Question (only Remove perchè se no merge mi duplica tutto)
 	@OneToMany(mappedBy="questionnaire", cascade= CascadeType.REMOVE)
 	private List<Question> questions;
 	
-	//bi-directional one-to-Many association to Reviews
+	//bi-directional one-to-many association to Reviews
 	@OneToMany(mappedBy="questionnaire", fetch=FetchType.EAGER, cascade= CascadeType.REMOVE)
 	private List<Review> reviews;
 
@@ -80,6 +82,10 @@ public class Questionnaire implements Serializable {
 
 	public void setImg(byte[] img) {
 		this.img = img;
+	}
+
+	public String getImgData() {
+		return Base64.getMimeEncoder().encodeToString(img);
 	}
 	
 	public List<Question> getQuestions() {

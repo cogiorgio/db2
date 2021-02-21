@@ -21,8 +21,9 @@ public class Question implements Serializable {
 
 	private String text;
 
-	//bi-directional many-to-one association to Answer
-	@OneToMany(mappedBy="question")
+	//bi-directional one-to-may association to Answer
+	//fetch/cascade? secondo me EAGER perchè quando carico il questionario carico anche tutte le domande e tutte le risposte
+	@OneToMany(mappedBy="question", fetch= FetchType.EAGER)
 	private List<Answer> answers;
 
 	//bi-directional many-to-one association to Questionnaire

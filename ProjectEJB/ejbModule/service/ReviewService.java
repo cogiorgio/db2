@@ -71,21 +71,17 @@ public class ReviewService {
     }
     
     public Review createReview(Questionnaire q,User u) {
-    	    
-    		
+    	    	
 			Review r= new Review (Age==0?0:Age,sex.charAt(0)=='n'?'\0':sex.charAt(0), level.strip().equals("none")?"\0":level, "submitted",DateTime.now().toDate());
 			q.addReview(r);
 			u.addReview(r);
-			em.persist(r);
-			
+			em.persist(r);		
 			em.flush();
 			return r;
-
     }
     
     public Review cancelReview(Questionnaire q,User u) {
-	    
-    	
+	       	
 		Review r= new Review (0,'\0',"", "cancelled",DateTime.now().toDate());
 		q.addReview(r);
 		u.addReview(r);

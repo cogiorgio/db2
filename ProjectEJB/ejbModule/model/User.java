@@ -31,7 +31,7 @@ public class User implements Serializable {
 	
 	private int points;
 	
-	//bi-directional many-to-one association to Question
+	//bi-directional one-to-many association to Reviews
 	@OneToMany(mappedBy="user", cascade= CascadeType.REMOVE)
 	private List<Review> reviews;
 

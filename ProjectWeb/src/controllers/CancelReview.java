@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.joda.time.DateTime;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -73,7 +74,7 @@ public class CancelReview extends HttpServlet {
 		// TODO Auto-generated method stub
 		Questionnaire q=null;
 		try {
-			q = qstService.getQuestionnaireOfTheDay();
+			q = qstService.findByDate(DateTime.now().toDate());
 		} catch (QuestionnaireException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,13 +84,6 @@ public class CancelReview extends HttpServlet {
 		revService = (ReviewService) request.getSession().getAttribute("revService");
 		
 		Review r=revService.cancelReview(q,(User) request.getSession().getAttribute("user"));
-		
-		
-		
-	    
-		
-		
-		
 		
 		
 		ServletContext servletContext = getServletContext();

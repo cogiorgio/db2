@@ -32,10 +32,9 @@ public class AnswerService {
 		quest.addAnswer(a);
 		r.addAnswer(a);
 		em.persist(a);
-		em.flush();
-		
-		
-			}
+		em.merge(r);
+		em.flush();		
+	}
 	
 
 }

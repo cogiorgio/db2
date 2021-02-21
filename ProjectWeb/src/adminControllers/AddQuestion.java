@@ -57,7 +57,7 @@ public class AddQuestion extends HttpServlet {
 		// Create mission in DB
 		Questionnaire questionnaire = (Questionnaire) session.getAttribute("questionnaire");
 		try {
-			qService.addQuestion(questionnaire, text);
+			qService.createQuestion(questionnaire, text);
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
 			return;

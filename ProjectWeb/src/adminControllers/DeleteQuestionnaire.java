@@ -66,7 +66,7 @@ public class DeleteQuestionnaire extends HttpServlet {
 
 		// Return view
 		String ctxpath = getServletContext().getContextPath();
-		String path = ctxpath + "/AdminHome";
+		String path = ctxpath + "/AdminHome.html";
 		response.sendRedirect(path);
 
 	}

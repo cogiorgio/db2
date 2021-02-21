@@ -42,8 +42,8 @@ public class Review implements Serializable {
 	@JoinColumn(name="user")
 	private User user;
 	
-	//bi-directional many-to-one association to Review
-	@OneToMany(mappedBy="review", cascade= CascadeType.REMOVE)
+	//bi-directional one-to-many association to Answer
+	@OneToMany(mappedBy="review", cascade= {CascadeType.REMOVE, CascadeType.PERSIST})
 	private List<Answer> answers;
 
 	public Review() {
