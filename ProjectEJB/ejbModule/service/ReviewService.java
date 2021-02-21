@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
+import javax.ejb.Remove;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -118,4 +119,9 @@ public class ReviewService {
     }
 
 
+    @Remove
+    public void remove()
+    {
+    	
+    }
 }
