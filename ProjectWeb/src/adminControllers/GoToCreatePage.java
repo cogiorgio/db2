@@ -21,7 +21,7 @@ import service.UserService;
 /**
  * Servlet implementation class GoToCreate
  */
-@WebServlet("/GoToCreatePage")
+@WebServlet("/GoToCreate")
 public class GoToCreatePage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -29,7 +29,7 @@ public class GoToCreatePage extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GoToCreatePage() {
+    public GoToCreate() {
         super();
         // TODO Auto-generated constructor stub
     }

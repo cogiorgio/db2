@@ -10,6 +10,7 @@ CREATE TABLE `user` (
 `mail` varchar(45) NOT NULL,
 `blocked` boolean NOT NULL,
 `points` int NOT NULL DEFAULT 0,
+`logData` datetime NOT NULL,
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -40,7 +41,6 @@ CREATE TABLE `review` (
 `age` int,
 `level` varchar(45),
 `status` varchar(45) NOT NULL,
-`logData` date NOT NULL,
 PRIMARY KEY (`id`),
 KEY `user_idR` (`user`),
 KEY `questionnaire_idR` (`questionnaire`),

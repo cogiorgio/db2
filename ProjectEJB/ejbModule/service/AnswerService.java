@@ -34,9 +34,7 @@ public class AnswerService {
 		em.persist(a);
 		em.merge(r);
 		em.flush();
-		
-		
-			}
+	}
 	
 
 }
