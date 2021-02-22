@@ -52,6 +52,7 @@ public class GoToInspection extends HttpServlet {
     	for(Review r: reviews) {
     		if(r.getStatus().contains("submitted") && !(submitted.contains(r))) {
     			submitted.add(r);
+    			System.out.println(r.getId());
     		}
     	}
     	return submitted;
