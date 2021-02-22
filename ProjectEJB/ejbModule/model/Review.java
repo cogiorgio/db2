@@ -42,7 +42,7 @@ public class Review implements Serializable {
 	private User user;
 	
 	//bi-directional many-to-one association to Review
-	@OneToMany(mappedBy="review", cascade= CascadeType.REMOVE)
+	@OneToMany(mappedBy="review",fetch=FetchType.EAGER, cascade= CascadeType.REMOVE)
 	private List<Answer> answers;
 
 	public Review() {
@@ -98,6 +98,7 @@ public class Review implements Serializable {
 		this.status = status;
 	
 	}
+
 
 
 	public String getStatus() {
