@@ -63,7 +63,6 @@ public class CheckLogin extends HttpServlet {
 			}
 
 		} catch (Exception e) {
-			// for debugging only e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
 			return;
 		}

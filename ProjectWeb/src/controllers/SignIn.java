@@ -35,7 +35,7 @@ public class SignIn extends HttpServlet {
 	private TemplateEngine templateEngine;
 	@EJB(name = "model/UserService")
 	private UserService usrService;
-	@EJB(name = "model/BlacklistService") //blacklist service test
+	@EJB(name = "model/BlacklistService") 
 	private BlacklistService bService; 
 
 
@@ -65,7 +65,6 @@ public class SignIn extends HttpServlet {
 				throw new Exception("Missing or empty credential value");
 			}
 		} catch (Exception e) {
-			// for debugging only e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
 			return;
 		}
@@ -82,16 +81,9 @@ public class SignIn extends HttpServlet {
 		try {
 			bService.checkBlacklist(temp, user);
 		} catch (BlacklistException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		try {
-			bService.checkBlacklist(temp, user);
-		} catch (BlacklistException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 
 		// If the user exists, add info to the session and go to home page, otherwise
 		// show login page with error message

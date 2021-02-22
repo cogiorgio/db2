@@ -30,8 +30,6 @@ public class GoToQuestionnaire extends HttpServlet {
 	
 	private TemplateEngine templateEngine;
 	
-	
-       
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -54,9 +52,7 @@ public class GoToQuestionnaire extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// TODO Auto-generated method stub
 		if(request.getParameterMap().containsKey("productId")) {
-			System.out.println("arrivo");
 			Questionnaire q= qstService.getQuestionnaireById(Integer.parseInt(request.getParameter("productId")));
 			ServletContext servletContext = getServletContext();
 			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());

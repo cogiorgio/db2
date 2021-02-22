@@ -16,7 +16,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "questionnaire", schema = "projectdb")
-@NamedQueries({@NamedQuery(name="Questionnaire.findAll", query="SELECT q FROM Questionnaire q"), @NamedQuery(name="Questionnaire.findByDate", query="SELECT q FROM Questionnaire q WHERE q.date= :qdate")})
+@NamedQueries({@NamedQuery(name="Questionnaire.findAll", query="SELECT q FROM Questionnaire q"), 
+	@NamedQuery(name="Questionnaire.findByDate", query="SELECT q FROM Questionnaire q WHERE q.date= :qdate")})
 public class Questionnaire implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -98,12 +99,6 @@ public class Questionnaire implements Serializable {
 		return question;
 	}
 
-	public Question removeQuestion(Question question) {
-		getQuestions().remove(question);
-		question.setQuestionnaire(null);
-
-		return question;
-	}
 	
 	public List<Review> getReviews() {
 		return reviews;
@@ -120,9 +115,5 @@ public class Questionnaire implements Serializable {
 		return review;
 	}
 
-	public void removeReview(Review review) {
-		getReviews().remove(review);
-		review.setQuestionnaire(null);
-	}
 
 }

@@ -1,7 +1,7 @@
 package controllers;
 
 import java.io.IOException;
-
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
@@ -59,14 +59,10 @@ public class GoToHomePage extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		System.out.println("bau");
         Questionnaire q=null;
 		try {
 			q = qstService.findByDate(DateTime.now().toDate());
 		} catch (QuestionnaireException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not find the questionnaire of the day");
 		}
 		ReviewService revService=null;
@@ -77,8 +73,8 @@ public class GoToHomePage extends HttpServlet {
 		try {
 			r=revService.findByUserQuestionnaire(u.getId(), q.getId());
 		} catch (ReviewException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not find the questionnaire of the day");
 			}
 		}
 		ServletContext servletContext = getServletContext();
@@ -86,11 +82,14 @@ public class GoToHomePage extends HttpServlet {
 		String path = "/WEB-INF/Home.html";
 		if(q!=null) {
 		ctx.setVariable("questionnaire", q);
-			if(r==null) { ctx.setVariable("off", "1");
-		}
-					
-		ctx.setVariable("reviews",q.getReviews());
-
+			if(r==null | u.getBlocked()) { ctx.setVariable("off", "1");}		
+		List<Review> reviews=null;
+		try {
+				reviews = qstService.findSubmitted(q);
+			} catch (QuestionnaireException e) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+			}
+		ctx.setVariable("reviews",reviews);
 
 		templateEngine.process(path, ctx, response.getWriter());
 	}

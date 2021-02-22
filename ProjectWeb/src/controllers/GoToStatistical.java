@@ -21,6 +21,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import exceptions.BlacklistException;
 import exceptions.QuestionnaireException;
 import model.Questionnaire;
+import model.Review;
 import model.User;
 import service.BlacklistService;
 import service.QuestionnaireService;
@@ -46,7 +47,6 @@ public class GoToStatistical extends HttpServlet {
      */
     public GoToStatistical() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     public void init() throws ServletException {
@@ -62,7 +62,6 @@ public class GoToStatistical extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -70,7 +69,6 @@ public class GoToStatistical extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		ReviewService revService=null;
 		revService = (ReviewService) request.getSession().getAttribute("revService");
 		User user=(User) request.getSession().getAttribute("user");
@@ -83,7 +81,6 @@ public class GoToStatistical extends HttpServlet {
 			try {
 				bService.checkBlacklist(temp, user);
 			} catch (BlacklistException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				ServletContext servletContext = getServletContext();
 				final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
@@ -92,13 +89,18 @@ public class GoToStatistical extends HttpServlet {
 				try {
 					q = qstService.findByDate(DateTime.now().toDate());
 				} catch (QuestionnaireException c) {
-					// TODO Auto-generated catch block
 					c.printStackTrace();
 					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not find the questionnaire of the day");
 				}
 				if(q!=null) {
 				ctx.setVariable("questionnaire", q);
-				ctx.setVariable("reviews",q.getReviews());
+				List<Review> reviews=null;
+				try {
+					reviews = qstService.findSubmitted(q);
+				} catch (QuestionnaireException f) {
+					response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+				}
+				ctx.setVariable("reviews",reviews);
 				templateEngine.process(path, ctx, response.getWriter());
 				return;
 			}

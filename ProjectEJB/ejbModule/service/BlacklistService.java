@@ -25,7 +25,6 @@ public class BlacklistService {
      * Default constructor. 
      */
     public BlacklistService() {
-        // TODO Auto-generated constructor stub
     }
     
     
@@ -37,30 +36,20 @@ public class BlacklistService {
     	List<Blacklist> bList = null;
     	try 
     	{
-    		//bList = em.createQuery("SELECT b FROM Blacklist b").getResultList();
     		bList = em.createNamedQuery("Blacklist.findAll", Blacklist.class).getResultList(); 
-    		
-    		//NamedQueryNotFound wtf!?
-    		//TypedQuery<Blacklist> query = em.createNamedQuery("Blacklist.findALL", Blacklist.class);
-    		//bList = query.getResultList();
+
     	}
     	catch (PersistenceException e)
     	{
     		throw new BlacklistException("Cannot load Blacklist");
     	}
     	
-    	//String [] baddies = new String[bList.size()]; 
-    	
-    	//baddies = ((Blacklist) bList).getBadwords().toArray();
-    	    	
-    	//String baddies = "$";
     	for (Blacklist badword : bList)
     	{
     		String baddies = badword.getBadwords();
     		if(inputText.contains(baddies))
     		{
     			found = true;
-    			System.out.println("baddies here");
     			break;
     		}
     	}
@@ -68,8 +57,7 @@ public class BlacklistService {
     	
     	if(found == true)
     	{
-    		System.out.println("baddies found");
-    		usr.setBlocked(found); //I'm getting the wrong user
+    		usr.setBlocked(found);
     		em.merge(usr);
     		throw new BlacklistException("Bad word found!");
     	}

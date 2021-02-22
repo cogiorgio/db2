@@ -145,10 +145,5 @@ public class Review implements Serializable {
 		answer.setReview(this);
 	}
 
-	public void removeAnswer(Answer answer) {
-		getAnswers().remove(answer);
-		answer.setReview(null);
-	}
-	
    
 }

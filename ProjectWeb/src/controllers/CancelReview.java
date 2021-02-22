@@ -48,7 +48,6 @@ public class CancelReview extends HttpServlet {
      */
     public CancelReview() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     public void init() throws ServletException {
@@ -87,13 +86,19 @@ public class CancelReview extends HttpServlet {
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Home.html";
+		
 		if(q!=null) {
+			List<Review> reviews=null;
+			try {
+				reviews = qstService.findSubmitted(q);
+			} catch (QuestionnaireException e) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+			}
 			ctx.setVariable("questionnaire", q);
-			ctx.setVariable("reviews",q.getReviews());
+			ctx.setVariable("reviews", reviews);
 		}
 
-		templateEngine.process(path, ctx, response.getWriter());
-		
+		templateEngine.process(path, ctx, response.getWriter());	
 		
 	}
 

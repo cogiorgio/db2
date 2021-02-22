@@ -68,11 +68,6 @@ public class Question implements Serializable {
 		return answer;
 	}
 
-	public Answer removeAnswer(Answer answer) {
-		getAnswers().remove(answer);
-		answer.setQuestion(null);
-		return answer;
-	}
 
 	public Questionnaire getQuestionnaire() {
 		return this.questionnaire;

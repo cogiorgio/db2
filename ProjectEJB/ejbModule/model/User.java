@@ -14,10 +14,8 @@ import java.util.List;
  * 
  */
 @Entity
-//@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 @NamedQueries({
-	@NamedQuery(name="Review.findLeader", query=" SELECT r.user FROM Review r WHERE r.status='submitted' and r.id=:review"),
-@NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2"), 
+	@NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2"), 
 @NamedQuery(name = "User.checkUsername", query = "SELECT u FROM User u  WHERE u.username = ?1")})
 public class User implements Serializable , Comparable<User>{
 	private static final long serialVersionUID = 1L;
@@ -119,11 +117,6 @@ public class User implements Serializable , Comparable<User>{
 		return review;
 	}
 
-	public Review removeReview(Review review) {
-		getReviews().remove(review);
-		review.setUser(null);
-		return review;
-	}
 	
 	public Date getLogData() {
 		return logData;

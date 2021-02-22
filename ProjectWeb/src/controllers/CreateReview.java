@@ -48,7 +48,6 @@ public class CreateReview extends HttpServlet {
      */
     public CreateReview() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     public void init() throws ServletException {
@@ -71,13 +70,10 @@ public class CreateReview extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		Questionnaire q=null;
 		try {
 			q = qstService.findByDate(DateTime.now().toDate());
 		} catch (QuestionnaireException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not find the questionnaire of the day");
 		}
 		ReviewService revService=null;
@@ -94,22 +90,21 @@ public class CreateReview extends HttpServlet {
 		try {
 			q = qstService.findByDate(DateTime.now().toDate());
 		} catch (QuestionnaireException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not find the questionnaire of the day");
 		}
-	    
-		
-		
-		
-		
-		
+	
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Thanks.html";
 		if(q!=null) {
+			List<Review> reviews=null;
+			try {
+				reviews = qstService.findSubmitted(q);
+			} catch (QuestionnaireException e) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+			}
 			ctx.setVariable("questionnaire", q);
-			ctx.setVariable("reviews",q.getReviews());
+			ctx.setVariable("reviews",reviews);
 		}
 
 		templateEngine.process(path, ctx, response.getWriter());

@@ -25,9 +25,7 @@ public class UserService {
 	@PersistenceContext(unitName = "projectEJB")
 	private EntityManager em;
 	
-    public UserService() {}
-        // TODO Auto-generated constructor stub
-  	
+    public UserService() {}  	
     	public User checkCredentials(String usrn, String pwd) throws CredentialsException, NonUniqueResultException {
     		List<User> uList = null;
     		try {
@@ -63,10 +61,9 @@ public class UserService {
     			throw new CredentialsException("Could not verify credentals");
     		}
     		if (uList.isEmpty()) {
-    			//if(em.createNamedQuery("User.checkCredentials", User.class).setParameter(1,usrn ).getResultList().isEmpty());   
+    			if(em.createNamedQuery("User.checkUsername", User.class).setParameter(1,username).getResultList().isEmpty());   
     			User u=new User(username, password, mail);
     			em.persist(u);
-    			System.out.println("User created.");
     			return u;
     		}	
     		else if (uList.size() >= 1) 
