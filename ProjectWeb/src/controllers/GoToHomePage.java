@@ -92,8 +92,7 @@ public class GoToHomePage extends HttpServlet {
 		String path = "/WEB-INF/Home.html";
 		if(q!=null) {
 			ctx.setVariable("questionnaire", q);
-			if(r==null) { ctx.setVariable("off", "1");}	
-			if(u.getBlocked()) { ctx.setVariable("off", "1");}
+			if((r==null) && (!u.getBlocked())) { ctx.setVariable("off", "1");}	
 			ctx.setVariable("reviews",getSubmitted(q.getReviews()));	
 			templateEngine.process(path, ctx, response.getWriter());
 		}
