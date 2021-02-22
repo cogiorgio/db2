@@ -71,14 +71,11 @@ public class ReviewService {
     }
     
     public Review createReview(Questionnaire q,User u) {
-    	    
-    		
+   		
 			Review r= new Review (Age==0?0:Age,sex.charAt(0)=='n'?'\0':sex.charAt(0), level.strip().equals("none")?"\0":level, "submitted");
 			q.addReview(r);
 			u.addReview(r);
 			em.persist(r);
-			
-			
 			em.flush();
 			return r;
 
@@ -103,7 +100,6 @@ public class ReviewService {
 
 }
     
-    //questo er stateless dovremo un attimo ripensare la cosa no?
     public Review findByUserQuestionnaire(Integer userId, Integer qId) throws ReviewException {
     	
     	List<Review> r= em.createNamedQuery("Review.findByUserQ").setParameter("questionnaire", qId).setParameter("user", userId).getResultList();   	

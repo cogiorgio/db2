@@ -58,7 +58,7 @@ public class GoToHomePage extends HttpServlet {
     	List<Review> submitted= new ArrayList<Review>();
     	
     	for(Review r: reviews) {
-    		if(r.getStatus().contains("submitted")) {
+    		if(r.getStatus().contains("submitted") && !(submitted.contains(r))) {
     			submitted.add(r);
     		}
     	}

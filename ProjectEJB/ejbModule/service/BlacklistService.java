@@ -31,7 +31,6 @@ public class BlacklistService {
     
     public void checkBlacklist(String inputText, User usr) throws BlacklistException
     {
-    	System.out.println("checking if there are baddies");
     	boolean found = false;
     	List<Blacklist> bList = null;
     	try 

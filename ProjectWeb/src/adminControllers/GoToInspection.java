@@ -50,7 +50,7 @@ public class GoToInspection extends HttpServlet {
     	List<Review> submitted= new ArrayList<Review>();
     	
     	for(Review r: reviews) {
-    		if(r.getStatus().contains("submitted")) {
+    		if(r.getStatus().contains("submitted") && !(submitted.contains(r))) {
     			submitted.add(r);
     		}
     	}
@@ -85,9 +85,6 @@ public class GoToInspection extends HttpServlet {
 		Date date = null;
 
 		try {
-			/*String datetime= request.getParameter("date");
-			DateTime time = DateTime.parse(datetime);
-			date= time.toDate();*/
 			String pattern="yyyy-MM-dd";
 			SimpleDateFormat formatter= new SimpleDateFormat(pattern);
 			date= formatter.parse(request.getParameter("date"));
@@ -114,7 +111,6 @@ public class GoToInspection extends HttpServlet {
 		//Get the list of users and the reviews
 		List<User> userSubmitted=null;
 		List<User> userCancelled=null;
-		List<Review> reviews=null;
 		try {
 			userSubmitted = qService.findUserSubmitted(q);
 			userCancelled= qService.findUserCancelled(q);
