@@ -97,7 +97,7 @@ public class CreateQuestionnaire extends HttpServlet {
 			return;
 		}
 		
-		//request.getSession().setAttribute("questionnaire", created);
+		request.getSession().setAttribute("questionnaire", created);
 		String path = getServletContext().getContextPath() + "/GoToAddQuestions";
 		response.sendRedirect(path);
 

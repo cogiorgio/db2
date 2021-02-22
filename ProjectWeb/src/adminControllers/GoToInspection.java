@@ -2,6 +2,7 @@ package adminControllers;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.ejb.EJB;
@@ -44,6 +45,17 @@ public class GoToInspection extends HttpServlet {
 	public GoToInspection() {
 		super();
 	}
+	
+    public List<Review> getSubmitted(List<Review> reviews){
+    	List<Review> submitted= new ArrayList<Review>();
+    	
+    	for(Review r: reviews) {
+    		if(r.getStatus().contains("submitted")) {
+    			submitted.add(r);
+    		}
+    	}
+    	return submitted;
+    }
 
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
@@ -106,21 +118,17 @@ public class GoToInspection extends HttpServlet {
 		try {
 			userSubmitted = qService.findUserSubmitted(q);
 			userCancelled= qService.findUserCancelled(q);
-			reviews= qService.findSubmitted(q);
 		} catch (QuestionnaireException e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 		}
-
-		System.out.println("molto bene");
 							
 		String path = "/WEB-INF/Inspection.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("subUsers", userSubmitted);
 		ctx.setVariable("cancUsers", userCancelled);
-		ctx.setVariable("reviews", reviews);
+		ctx.setVariable("reviews",getSubmitted(q.getReviews()));
 
-		
 		templateEngine.process(path, ctx, response.getWriter());
 
 	}

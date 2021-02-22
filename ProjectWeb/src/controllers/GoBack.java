@@ -56,20 +56,15 @@ public class GoBack extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		Questionnaire q=null;
 		try {
 			q = qstService.findByDate(DateTime.now().toDate());
 		} catch (QuestionnaireException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not find the questionnaire of the day");
 		}
 		ReviewService revService=null;
 		revService = (ReviewService) request.getSession().getAttribute("revService");
 		Map<String,String> answers=revService.getAnswers();
-		
-		
 		
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
@@ -88,13 +83,10 @@ public class GoBack extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		Questionnaire q=null;
 		try {
 			q = qstService.findByDate(DateTime.now().toDate());
 		} catch (QuestionnaireException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not find the questionnaire of the day");
 		}
 		ReviewService revService=null;
@@ -104,13 +96,9 @@ public class GoBack extends HttpServlet {
 		revService.setSex(request.getParameter("sex"));
 		revService.setExpertise(request.getParameter("level"));
 		
-		
-		
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Questions.html";
-		
-		
 		ctx.setVariable("answers", answers);
 		
 		if(q!=null) {

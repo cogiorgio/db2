@@ -21,7 +21,6 @@ public class AnswerService {
 	private EntityManager em;
 	
     public AnswerService() {
-        // TODO Auto-generated constructor stub
     }
     
 	public void createAnswer(String q, Review r,String text) {

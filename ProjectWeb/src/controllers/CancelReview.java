@@ -59,6 +59,16 @@ public class CancelReview extends HttpServlet {
 		templateResolver.setSuffix(".html");
 	}
 
+    public List<Review> getSubmitted(List<Review> reviews){
+    	List<Review> submitted= new ArrayList<Review>();
+    	
+    	for(Review r: reviews) {
+    		if(r.getStatus().contains("submitted")) {
+    			submitted.add(r);
+    		}
+    	}
+    	return submitted;
+    }
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -88,14 +98,8 @@ public class CancelReview extends HttpServlet {
 		String path = "/WEB-INF/Home.html";
 		
 		if(q!=null) {
-			List<Review> reviews=null;
-			try {
-				reviews = qstService.findSubmitted(q);
-			} catch (QuestionnaireException e) {
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-			}
 			ctx.setVariable("questionnaire", q);
-			ctx.setVariable("reviews", reviews);
+			ctx.setVariable("reviews",getSubmitted(q.getReviews()));
 		}
 
 		templateEngine.process(path, ctx, response.getWriter());	

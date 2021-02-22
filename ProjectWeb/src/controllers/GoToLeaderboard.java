@@ -65,7 +65,6 @@ public class GoToLeaderboard extends HttpServlet {
 		}
 
 		// Get and parse all parameters from request	
-
 		try {
 			q= qService.findByDate(DateTime.now().toDate());
 		} catch (Exception e) {

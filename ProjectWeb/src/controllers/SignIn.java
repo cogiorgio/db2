@@ -73,8 +73,7 @@ public class SignIn extends HttpServlet {
 			// query db to authenticate for user
 			user = usrService.signIn(usrn, pwd, mail );
 		} catch (CredentialsException | NonUniqueResultException e) {
-			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST,e.getMessage());
 			return;
 		}
 		String temp = usrn;

@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -42,7 +43,6 @@ public class GoToHomePage extends HttpServlet {
      */
     public GoToHomePage() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     public void init() throws ServletException {
@@ -54,6 +54,16 @@ public class GoToHomePage extends HttpServlet {
 		templateResolver.setSuffix(".html");
 	}
 
+    public List<Review> getSubmitted(List<Review> reviews){
+    	List<Review> submitted= new ArrayList<Review>();
+    	
+    	for(Review r: reviews) {
+    		if(r.getStatus().contains("submitted")) {
+    			submitted.add(r);
+    		}
+    	}
+    	return submitted;
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -82,18 +92,18 @@ public class GoToHomePage extends HttpServlet {
 		String path = "/WEB-INF/Home.html";
 		if(q!=null) {
 		ctx.setVariable("questionnaire", q);
-			if(r==null | u.getBlocked()) { ctx.setVariable("off", "1");}		
-		List<Review> reviews=null;
-		try {
-				reviews = qstService.findSubmitted(q);
-			} catch (QuestionnaireException e) {
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-			}
-		ctx.setVariable("reviews",reviews);
+		if(r==null) { ctx.setVariable("off", "1");}	
+		if(u.getBlocked()) { ctx.setVariable("off", "1");}
+
+
+	
+		ctx.setVariable("reviews",getSubmitted(q.getReviews()));
 
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 	}
+
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

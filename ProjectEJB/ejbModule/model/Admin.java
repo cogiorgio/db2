@@ -9,7 +9,8 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@NamedQueries({@NamedQuery(name = "Admin.checkCredentials", query = "SELECT a FROM Admin a  WHERE a.username = ?1 and a.password = ?2"),@NamedQuery(name = "Admin.checkUsername", query = "SELECT a FROM Admin a  WHERE a.username = ?1") ,@NamedQuery(name="Admin.findAll", query="SELECT a FROM Admin a")})
+@NamedQueries({@NamedQuery(name = "Admin.checkCredentials", query = "SELECT a FROM Admin a  WHERE a.username = ?1 and a.password = ?2"),
+	@NamedQuery(name = "Admin.checkUsername", query = "SELECT a FROM Admin a  WHERE a.username = ?1") ,@NamedQuery(name="Admin.findAll", query="SELECT a FROM Admin a")})
 public class Admin implements Serializable {
 	private static final long serialVersionUID = 1L;
 

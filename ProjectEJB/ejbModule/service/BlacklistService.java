@@ -61,8 +61,6 @@ public class BlacklistService {
     		em.merge(usr);
     		throw new BlacklistException("Bad word found!");
     	}
-    	
-    	System.out.println("done checking if there are baddies");
-    }
+       }
 
 }

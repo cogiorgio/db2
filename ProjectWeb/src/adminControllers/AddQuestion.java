@@ -58,8 +58,7 @@ public class AddQuestion extends HttpServlet {
 			return;
 		}
 		// Create and add question in DB
-		//Questionnaire questionnaire = (Questionnaire) session.getAttribute("questionnaire");
-		Questionnaire questionnaire=null;
+		Questionnaire questionnaire = (Questionnaire) session.getAttribute("questionnaire");
 		try {
 			questionnaire = qstService.findByDate(DateTime.now().toDate());
 		} catch (QuestionnaireException e1) {

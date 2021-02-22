@@ -92,7 +92,7 @@ public class QuestionnaireService {
 		for(Review r: q.getReviews()) {
 			if(r.getStatus().contains("submitted")) {
 				User u=em.find(User.class,r.getUser().getId());
-				//em.refresh(u);	
+				em.refresh(u);	
 				users.add(u);
 			}
 		}
@@ -118,14 +118,12 @@ public class QuestionnaireService {
 		return em.find(Questionnaire.class,id);
 	}
 	
-	public List<Review> findSubmitted(Questionnaire q) throws QuestionnaireException{
-		em.refresh(q);
+	/*public List<Review> findSubmitted(Questionnaire q) {
+
 		List<Review> reviews= em.createQuery("SELECT r FROM Review r WHERE r.id = ?1 AND r.status=?2",Review.class).setParameter(1, q.getId()).setParameter(2, "submitted").getResultList();
-		if(reviews.isEmpty() | reviews==null) {
-			throw new QuestionnaireException("There are no submited reviews for the questionnaire");
-		}
+		
 		return reviews;
-	}
+	}*/
 	
 	
 }

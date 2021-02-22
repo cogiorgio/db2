@@ -65,6 +65,17 @@ public class GoToStatistical extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
+    public List<Review> getSubmitted(List<Review> reviews){
+    	List<Review> submitted= new ArrayList<Review>();
+    	
+    	for(Review r: reviews) {
+    		if(r.getStatus().contains("submitted")) {
+    			submitted.add(r);
+    		}
+    	}
+    	return submitted;
+    }
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -81,7 +92,6 @@ public class GoToStatistical extends HttpServlet {
 			try {
 				bService.checkBlacklist(temp, user);
 			} catch (BlacklistException e) {
-				e.printStackTrace();
 				ServletContext servletContext = getServletContext();
 				final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 				String path = "/WEB-INF/Home.html";
@@ -94,13 +104,7 @@ public class GoToStatistical extends HttpServlet {
 				}
 				if(q!=null) {
 				ctx.setVariable("questionnaire", q);
-				List<Review> reviews=null;
-				try {
-					reviews = qstService.findSubmitted(q);
-				} catch (QuestionnaireException f) {
-					response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-				}
-				ctx.setVariable("reviews",reviews);
+				ctx.setVariable("reviews",getSubmitted(q.getReviews()));
 				templateEngine.process(path, ctx, response.getWriter());
 				return;
 			}
@@ -114,7 +118,6 @@ public class GoToStatistical extends HttpServlet {
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Statistical.html";
 		ctx.setVariable("sex", revService.getSex());
-		System.out.println(revService.getSex());
 		ctx.setVariable("age", revService.getAge());
 		ctx.setVariable("level", revService.getExpertise());
 		templateEngine.process(path, ctx, response.getWriter());

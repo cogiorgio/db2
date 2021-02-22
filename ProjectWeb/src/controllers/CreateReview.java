@@ -65,6 +65,17 @@ public class CreateReview extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
+	
+    public List<Review> getSubmitted(List<Review> reviews){
+    	List<Review> submitted= new ArrayList<Review>();
+    	
+    	for(Review r: reviews) {
+    		if(r.getStatus().contains("submitted")) {
+    			submitted.add(r);
+    		}
+    	}
+    	return submitted;
+    }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -97,14 +108,8 @@ public class CreateReview extends HttpServlet {
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Thanks.html";
 		if(q!=null) {
-			List<Review> reviews=null;
-			try {
-				reviews = qstService.findSubmitted(q);
-			} catch (QuestionnaireException e) {
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-			}
 			ctx.setVariable("questionnaire", q);
-			ctx.setVariable("reviews",reviews);
+			ctx.setVariable("reviews",getSubmitted(q.getReviews()));
 		}
 
 		templateEngine.process(path, ctx, response.getWriter());

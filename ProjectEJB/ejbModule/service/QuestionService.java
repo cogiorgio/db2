@@ -17,10 +17,8 @@ import model.Questionnaire;
 public class QuestionService {
 	@PersistenceContext(unitName = "projectEJB")
 	private EntityManager em;
-	private int max=10;
 	
     public QuestionService() {
-        // TODO Auto-generated constructor stub
     }
     
 	public void addQuestion(Questionnaire questionnaire, String text) throws QuestionnaireException {
