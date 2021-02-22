@@ -15,7 +15,7 @@
     <div>
     	<form action="GoToStatistical" method="post">
 			<div th:each="question : ${questionnaire.getQuestions()}">
-			<span th:text="'Question ' + ${question.text}"> </span> 
+			<span th:text="${question.text}"> </span> 
 			<input  th:name="${question.id}" th:value="${answers!=null? answers.get(question.id.toString()):''}"></div>
 			<input id="submit"  type="submit"  value="next">
 		</form>
