@@ -36,7 +36,6 @@ public class ReviewService {
 	private String level="";
 
     public ReviewService() {
-        // TODO Auto-generated constructor stub
     }
     
     public void addAnswer(String id,String answer) {
