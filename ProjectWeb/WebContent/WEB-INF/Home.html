@@ -25,9 +25,9 @@
 	    	</div>
 		</form>
 	</div>
-	
-	<div>	
-		<table>
+
+
+		<table th:if="${questionnaire!=null }">
 			<thead>
 				<tr><th>User</th><th>Age</th><th>Sex</th><th>Level</th></tr>
 			</thead>
@@ -44,9 +44,10 @@
 				</tr>
 			</tbody>
 		</table>
-	</div>
+
+
 	<br><br>	
-	<div align="center">
+	<div th:if="${questionnaire!=null }" align="center">
 		<a th:href="@{/GoToLeaderboard}">Go to Leaderboard Page</a>
 	</div>
 	

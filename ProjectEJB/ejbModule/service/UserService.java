@@ -68,7 +68,7 @@ public class UserService {
     			return u;
     		}	
     		else if (uList.size() >= 1) 
-    			throw new NonUniqueResultException("Username already used.");
+    			throw new CredentialsException("Username already used.");
     		return null;
     	}
 

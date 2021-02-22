@@ -91,16 +91,16 @@ public class GoToHomePage extends HttpServlet {
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Home.html";
 		if(q!=null) {
-		ctx.setVariable("questionnaire", q);
-		if(r==null) { ctx.setVariable("off", "1");}	
-		if(u.getBlocked()) { ctx.setVariable("off", "1");}
-
-
-	
-		ctx.setVariable("reviews",getSubmitted(q.getReviews()));
-
-		templateEngine.process(path, ctx, response.getWriter());
-	}
+			ctx.setVariable("questionnaire", q);
+			if(r==null) { ctx.setVariable("off", "1");}	
+			if(u.getBlocked()) { ctx.setVariable("off", "1");}
+			ctx.setVariable("reviews",getSubmitted(q.getReviews()));	
+			templateEngine.process(path, ctx, response.getWriter());
+		}
+		else {
+			ctx.setVariable("questionnaire", q);
+			templateEngine.process(path, ctx, response.getWriter());
+		}
 	}
 
 
